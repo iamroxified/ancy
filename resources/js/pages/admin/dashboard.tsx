@@ -24,7 +24,8 @@ export default function AdminDashboardPage() {
         if (status) params.set('status', status);
         if (state) params.set('state', state);
         if (lga) params.set('lga', lga);
-        router.get('/admin', params.toString() ? `?${params.toString()}` : '/admin');
+        const queryString = params.toString();
+        router.get(queryString ? `/admin?${queryString}` : '/admin');
     };
 
     const handleStatusUpdate = (id: number, statusValue: string) => {

@@ -23,6 +23,7 @@ Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admi
 
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
     Route::get('/admin/settings', function () {
         return inertia('admin/settings', [
             'settings' => [

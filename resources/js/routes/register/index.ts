@@ -1,62 +1,87 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../wayfinder'
 /**
-* @see \Laravel\Fortify\Http\Controllers\RegisteredUserController::store
-* @see vendor/laravel/fortify/src/Http/Controllers/RegisteredUserController.php:53
-* @route '/register'
+* @see \App\Http\Controllers\MemberRegistrationController::confirmation
+* @see app/Http/Controllers/MemberRegistrationController.php:67
+* @route '/register/confirmation'
 */
-export const store = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
-    url: store.url(options),
-    method: 'post',
+export const confirmation = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: confirmation.url(options),
+    method: 'get',
 })
 
-store.definition = {
-    methods: ["post"],
-    url: '/register',
-} satisfies RouteDefinition<["post"]>
+confirmation.definition = {
+    methods: ["get","head"],
+    url: '/register/confirmation',
+} satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see \Laravel\Fortify\Http\Controllers\RegisteredUserController::store
-* @see vendor/laravel/fortify/src/Http/Controllers/RegisteredUserController.php:53
-* @route '/register'
+* @see \App\Http\Controllers\MemberRegistrationController::confirmation
+* @see app/Http/Controllers/MemberRegistrationController.php:67
+* @route '/register/confirmation'
 */
-store.url = (options?: RouteQueryOptions) => {
-    return store.definition.url + queryParams(options)
+confirmation.url = (options?: RouteQueryOptions) => {
+    return confirmation.definition.url + queryParams(options)
 }
 
 /**
-* @see \Laravel\Fortify\Http\Controllers\RegisteredUserController::store
-* @see vendor/laravel/fortify/src/Http/Controllers/RegisteredUserController.php:53
-* @route '/register'
+* @see \App\Http\Controllers\MemberRegistrationController::confirmation
+* @see app/Http/Controllers/MemberRegistrationController.php:67
+* @route '/register/confirmation'
 */
-store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
-    url: store.url(options),
-    method: 'post',
+confirmation.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: confirmation.url(options),
+    method: 'get',
 })
 
 /**
-* @see \Laravel\Fortify\Http\Controllers\RegisteredUserController::store
-* @see vendor/laravel/fortify/src/Http/Controllers/RegisteredUserController.php:53
-* @route '/register'
+* @see \App\Http\Controllers\MemberRegistrationController::confirmation
+* @see app/Http/Controllers/MemberRegistrationController.php:67
+* @route '/register/confirmation'
 */
-const storeForm = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
-    action: store.url(options),
-    method: 'post',
+confirmation.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: confirmation.url(options),
+    method: 'head',
 })
 
 /**
-* @see \Laravel\Fortify\Http\Controllers\RegisteredUserController::store
-* @see vendor/laravel/fortify/src/Http/Controllers/RegisteredUserController.php:53
-* @route '/register'
+* @see \App\Http\Controllers\MemberRegistrationController::confirmation
+* @see app/Http/Controllers/MemberRegistrationController.php:67
+* @route '/register/confirmation'
 */
-storeForm.post = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
-    action: store.url(options),
-    method: 'post',
+const confirmationForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: confirmation.url(options),
+    method: 'get',
 })
 
-store.form = storeForm
+/**
+* @see \App\Http\Controllers\MemberRegistrationController::confirmation
+* @see app/Http/Controllers/MemberRegistrationController.php:67
+* @route '/register/confirmation'
+*/
+confirmationForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: confirmation.url(options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\MemberRegistrationController::confirmation
+* @see app/Http/Controllers/MemberRegistrationController.php:67
+* @route '/register/confirmation'
+*/
+confirmationForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: confirmation.url({
+        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+            _method: 'HEAD',
+            ...(options?.query ?? options?.mergeQuery ?? {}),
+        }
+    }),
+    method: 'get',
+})
+
+confirmation.form = confirmationForm
 
 const register = {
-    store: Object.assign(store, store),
+    confirmation: Object.assign(confirmation, confirmation),
 }
 
 export default register
