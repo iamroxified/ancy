@@ -76,7 +76,7 @@ Back up the database using your database provider's encrypted backup mechanism a
 3. Install JavaScript dependencies and run `npm run build` in the release build environment.
 4. Run `php artisan migrate --force` as a controlled deployment step, then `php artisan db:seed --force` to import the ANCYN State/LGA/Ward/Polling Unit catalog. The seeder is idempotent and creates no administrator account.
 5. Create or rotate administrators using `php artisan ancy:make-admin` from a trusted terminal.
-6. Point the web server document root at `public/`; enable HTTPS and ensure `storage/` and `bootstrap/cache/` are writable by the application user but not publicly browsable.
+6. Point the web server document root at `public/`; enable HTTPS and ensure `storage/` and `bootstrap/cache/` are writable by the application user but not publicly browsable. If shared hosting cannot change the document root and instead points at the Laravel project root, the root `.htaccess` rewrites requests into `public/` as a workaround; configure the document root to `public/` whenever possible.
 7. Run `php artisan config:cache`, `php artisan route:cache`, and `php artisan view:cache` after environment configuration.
 8. Configure the Laravel scheduler and an encrypted, tested database backup process.
 
