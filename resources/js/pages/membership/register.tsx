@@ -3,20 +3,81 @@ import { router } from '@inertiajs/core';
 import { FormEvent, useState } from 'react';
 import { Menu, X } from 'lucide-react';
 
+type LocationOption = { id: number; name: string };
+
 export default function MembershipRegisterPage() {
-    const { states, lgas, errors } = usePage().props as any;
+    const { states, errors } = usePage().props as any;
     const [processing, setProcessing] = useState(false);
     const [menuOpen, setMenuOpen] = useState(false);
+    const [localGovernments, setLocalGovernments] = useState<LocationOption[]>([]);
+    const [wards, setWards] = useState<LocationOption[]>([]);
+    const [pollingUnits, setPollingUnits] = useState<LocationOption[]>([]);
+    const [loadingLocation, setLoadingLocation] = useState(false);
+    const [locationError, setLocationError] = useState('');
     const [form, setForm] = useState({
         full_name: '',
         vin: '',
         phone_number: '',
-        state: '',
-        lga: '',
-        ward: '',
-        polling_unit: '',
+        state_id: '',
+        local_government_id: '',
+        ward_id: '',
+        polling_unit_id: '',
         privacy_consent: false,
     });
+
+    const loadLocations = async (url: string): Promise<LocationOption[]> => {
+        const response = await fetch(url, { headers: { Accept: 'application/json' } });
+        if (!response.ok) throw new Error('Location options could not be loaded. Please try again.');
+        return response.json();
+    };
+
+    const selectState = async (stateId: string) => {
+        setForm({ ...form, state_id: stateId, local_government_id: '', ward_id: '', polling_unit_id: '' });
+        setLocalGovernments([]);
+        setWards([]);
+        setPollingUnits([]);
+        setLocationError('');
+        if (!stateId) return;
+        setLoadingLocation(true);
+        try {
+            setLocalGovernments(await loadLocations(`/locations/states/${stateId}/local-governments`));
+        } catch (error) {
+            setLocationError(error instanceof Error ? error.message : 'Location options could not be loaded.');
+        } finally {
+            setLoadingLocation(false);
+        }
+    };
+
+    const selectLocalGovernment = async (localGovernmentId: string) => {
+        setForm({ ...form, local_government_id: localGovernmentId, ward_id: '', polling_unit_id: '' });
+        setWards([]);
+        setPollingUnits([]);
+        setLocationError('');
+        if (!localGovernmentId) return;
+        setLoadingLocation(true);
+        try {
+            setWards(await loadLocations(`/locations/local-governments/${localGovernmentId}/wards`));
+        } catch (error) {
+            setLocationError(error instanceof Error ? error.message : 'Location options could not be loaded.');
+        } finally {
+            setLoadingLocation(false);
+        }
+    };
+
+    const selectWard = async (wardId: string) => {
+        setForm({ ...form, ward_id: wardId, polling_unit_id: '' });
+        setPollingUnits([]);
+        setLocationError('');
+        if (!wardId) return;
+        setLoadingLocation(true);
+        try {
+            setPollingUnits(await loadLocations(`/locations/wards/${wardId}/polling-units`));
+        } catch (error) {
+            setLocationError(error instanceof Error ? error.message : 'Location options could not be loaded.');
+        } finally {
+            setLoadingLocation(false);
+        }
+    };
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -78,32 +139,39 @@ export default function MembershipRegisterPage() {
                             </div>
                             <div>
                                 <label className="mb-2 block text-sm font-medium text-slate-700">State</label>
-                                <select value={form.state} onChange={(e) => setForm({ ...form, state: e.target.value, lga: '' })} className="w-full rounded-xl border border-slate-200 px-4 py-3" required>
+                                <select value={form.state_id} onChange={(e) => void selectState(e.target.value)} className="w-full rounded-xl border border-slate-200 px-4 py-3" required>
                                     <option value="">Select state</option>
-                                    {(states ?? []).map((state: string) => (
-                                        <option key={state} value={state}>{state}</option>
+                                    {(states ?? []).map((state: LocationOption) => (
+                                        <option key={state.id} value={state.id}>{state.name}</option>
                                     ))}
                                 </select>
-                                {errors?.state ? <p className="mt-2 text-sm text-red-600">{errors.state}</p> : null}
+                                {errors?.state_id ? <p className="mt-2 text-sm text-red-600">{errors.state_id}</p> : null}
                             </div>
                             <div>
                                 <label className="mb-2 block text-sm font-medium text-slate-700">LGA</label>
-                                <select value={form.lga} onChange={(e) => setForm({ ...form, lga: e.target.value })} className="w-full rounded-xl border border-slate-200 px-4 py-3" required disabled={!form.state}>
-                                    <option value="">{form.state ? 'Select LGA' : 'Select a state first'}</option>
-                                    {(lgas?.[form.state] ?? []).map((lga: string) => <option key={lga} value={lga}>{lga}</option>)}
+                                <select value={form.local_government_id} onChange={(e) => void selectLocalGovernment(e.target.value)} className="w-full rounded-xl border border-slate-200 px-4 py-3" required disabled={!form.state_id || loadingLocation}>
+                                    <option value="">{!form.state_id ? 'Select a state first' : loadingLocation ? 'Loading LGAs…' : 'Select LGA'}</option>
+                                    {localGovernments.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}
                                 </select>
-                                {errors?.lga ? <p className="mt-2 text-sm text-red-600">{errors.lga}</p> : null}
+                                {errors?.local_government_id ? <p className="mt-2 text-sm text-red-600">{errors.local_government_id}</p> : null}
                             </div>
                             <div>
                                 <label className="mb-2 block text-sm font-medium text-slate-700">Ward</label>
-                                <input value={form.ward} onChange={(e) => setForm({ ...form, ward: e.target.value })} className="w-full rounded-xl border border-slate-200 px-4 py-3" required />
-                                {errors?.ward ? <p className="mt-2 text-sm text-red-600">{errors.ward}</p> : null}
+                                <select value={form.ward_id} onChange={(e) => void selectWard(e.target.value)} className="w-full rounded-xl border border-slate-200 px-4 py-3" required disabled={!form.local_government_id || loadingLocation}>
+                                    <option value="">{!form.local_government_id ? 'Select an LGA first' : loadingLocation ? 'Loading wards…' : 'Select ward'}</option>
+                                    {wards.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}
+                                </select>
+                                {errors?.ward_id ? <p className="mt-2 text-sm text-red-600">{errors.ward_id}</p> : null}
                             </div>
-                            <div className="md:col-span-2">
+                            <div>
                                 <label className="mb-2 block text-sm font-medium text-slate-700">Polling Unit</label>
-                                <input value={form.polling_unit} onChange={(e) => setForm({ ...form, polling_unit: e.target.value })} className="w-full rounded-xl border border-slate-200 px-4 py-3" required />
-                                {errors?.polling_unit ? <p className="mt-2 text-sm text-red-600">{errors.polling_unit}</p> : null}
+                                <select value={form.polling_unit_id} onChange={(e) => setForm({ ...form, polling_unit_id: e.target.value })} className="w-full rounded-xl border border-slate-200 px-4 py-3" required disabled={!form.ward_id || loadingLocation}>
+                                    <option value="">{!form.ward_id ? 'Select a ward first' : loadingLocation ? 'Loading polling units…' : 'Select polling unit'}</option>
+                                    {pollingUnits.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}
+                                </select>
+                                {errors?.polling_unit_id ? <p className="mt-2 text-sm text-red-600">{errors.polling_unit_id}</p> : null}
                             </div>
+                            {locationError ? <p role="alert" className="md:col-span-2 text-sm text-red-600">{locationError}</p> : null}
                         </div>
 
                         <div className="mt-8 rounded-2xl border border-slate-200 bg-slate-50 p-4">

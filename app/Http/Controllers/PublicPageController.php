@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ContactMessage;
+use App\Models\LocationState;
 use App\Models\SiteSetting;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -55,8 +56,7 @@ class PublicPageController extends Controller
     public function registerPage()
     {
         return Inertia::render('membership/register', [
-            'states' => config('ancyn.states'),
-            'lgas' => config('ancyn.lgas'),
+            'states' => LocationState::query()->orderBy('name')->get(['id', 'name']),
         ]);
     }
 

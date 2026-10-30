@@ -85,7 +85,7 @@ index.form = indexForm
 * @see app/Http/Controllers/AdminContactMessageController.php:22
 * @route '/admin/messages/{contactMessage}'
 */
-export const show = (args: { contactMessage: string | number | { id: string | number } } | [contactMessage: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+export const show = (args: { contactMessage: number | { id: number } } | [contactMessage: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: show.url(args, options),
     method: 'get',
 })
@@ -100,7 +100,7 @@ show.definition = {
 * @see app/Http/Controllers/AdminContactMessageController.php:22
 * @route '/admin/messages/{contactMessage}'
 */
-show.url = (args: { contactMessage: string | number | { id: string | number } } | [contactMessage: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions) => {
+show.url = (args: { contactMessage: number | { id: number } } | [contactMessage: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { contactMessage: args }
     }
@@ -133,7 +133,7 @@ show.url = (args: { contactMessage: string | number | { id: string | number } } 
 * @see app/Http/Controllers/AdminContactMessageController.php:22
 * @route '/admin/messages/{contactMessage}'
 */
-show.get = (args: { contactMessage: string | number | { id: string | number } } | [contactMessage: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+show.get = (args: { contactMessage: number | { id: number } } | [contactMessage: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: show.url(args, options),
     method: 'get',
 })
@@ -143,7 +143,7 @@ show.get = (args: { contactMessage: string | number | { id: string | number } } 
 * @see app/Http/Controllers/AdminContactMessageController.php:22
 * @route '/admin/messages/{contactMessage}'
 */
-show.head = (args: { contactMessage: string | number | { id: string | number } } | [contactMessage: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+show.head = (args: { contactMessage: number | { id: number } } | [contactMessage: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: show.url(args, options),
     method: 'head',
 })
@@ -153,7 +153,7 @@ show.head = (args: { contactMessage: string | number | { id: string | number } }
 * @see app/Http/Controllers/AdminContactMessageController.php:22
 * @route '/admin/messages/{contactMessage}'
 */
-const showForm = (args: { contactMessage: string | number | { id: string | number } } | [contactMessage: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+const showForm = (args: { contactMessage: number | { id: number } } | [contactMessage: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
     action: show.url(args, options),
     method: 'get',
 })
@@ -163,7 +163,7 @@ const showForm = (args: { contactMessage: string | number | { id: string | numbe
 * @see app/Http/Controllers/AdminContactMessageController.php:22
 * @route '/admin/messages/{contactMessage}'
 */
-showForm.get = (args: { contactMessage: string | number | { id: string | number } } | [contactMessage: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+showForm.get = (args: { contactMessage: number | { id: number } } | [contactMessage: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
     action: show.url(args, options),
     method: 'get',
 })
@@ -173,7 +173,7 @@ showForm.get = (args: { contactMessage: string | number | { id: string | number 
 * @see app/Http/Controllers/AdminContactMessageController.php:22
 * @route '/admin/messages/{contactMessage}'
 */
-showForm.head = (args: { contactMessage: string | number | { id: string | number } } | [contactMessage: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+showForm.head = (args: { contactMessage: number | { id: number } } | [contactMessage: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
     action: show.url(args, {
         [options?.mergeQuery ? 'mergeQuery' : 'query']: {
             _method: 'HEAD',
@@ -190,7 +190,7 @@ show.form = showForm
 * @see app/Http/Controllers/AdminContactMessageController.php:29
 * @route '/admin/messages/{contactMessage}/status'
 */
-export const updateStatus = (args: { contactMessage: string | number | { id: string | number } } | [contactMessage: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
+export const updateStatus = (args: { contactMessage: number | { id: number } } | [contactMessage: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: updateStatus.url(args, options),
     method: 'post',
 })
@@ -205,7 +205,7 @@ updateStatus.definition = {
 * @see app/Http/Controllers/AdminContactMessageController.php:29
 * @route '/admin/messages/{contactMessage}/status'
 */
-updateStatus.url = (args: { contactMessage: string | number | { id: string | number } } | [contactMessage: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions) => {
+updateStatus.url = (args: { contactMessage: number | { id: number } } | [contactMessage: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { contactMessage: args }
     }
@@ -238,7 +238,7 @@ updateStatus.url = (args: { contactMessage: string | number | { id: string | num
 * @see app/Http/Controllers/AdminContactMessageController.php:29
 * @route '/admin/messages/{contactMessage}/status'
 */
-updateStatus.post = (args: { contactMessage: string | number | { id: string | number } } | [contactMessage: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
+updateStatus.post = (args: { contactMessage: number | { id: number } } | [contactMessage: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: updateStatus.url(args, options),
     method: 'post',
 })
@@ -248,7 +248,7 @@ updateStatus.post = (args: { contactMessage: string | number | { id: string | nu
 * @see app/Http/Controllers/AdminContactMessageController.php:29
 * @route '/admin/messages/{contactMessage}/status'
 */
-const updateStatusForm = (args: { contactMessage: string | number | { id: string | number } } | [contactMessage: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+const updateStatusForm = (args: { contactMessage: number | { id: number } } | [contactMessage: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
     action: updateStatus.url(args, options),
     method: 'post',
 })
@@ -258,7 +258,7 @@ const updateStatusForm = (args: { contactMessage: string | number | { id: string
 * @see app/Http/Controllers/AdminContactMessageController.php:29
 * @route '/admin/messages/{contactMessage}/status'
 */
-updateStatusForm.post = (args: { contactMessage: string | number | { id: string | number } } | [contactMessage: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+updateStatusForm.post = (args: { contactMessage: number | { id: number } } | [contactMessage: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
     action: updateStatus.url(args, options),
     method: 'post',
 })

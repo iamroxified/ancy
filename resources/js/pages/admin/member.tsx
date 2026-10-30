@@ -1,19 +1,51 @@
 import { Head, usePage } from '@inertiajs/react';
 import { router } from '@inertiajs/core';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+
+type LocationOption = { id: number; name: string };
 
 export default function AdminMemberPage() {
-    const { member, states, lgas, errors } = usePage().props as any;
+    const { member, states, errors } = usePage().props as any;
     const [status, setStatus] = useState(member?.status ?? 'pending');
     const [form, setForm] = useState({
         full_name: member?.full_name ?? '',
         vin: '',
         phone_number: '',
-        state: member?.state ?? '',
-        lga: member?.lga ?? '',
-        ward: member?.ward ?? '',
-        polling_unit: member?.polling_unit ?? '',
+        state_id: member?.state_id ? String(member.state_id) : '',
+        local_government_id: member?.local_government_id ? String(member.local_government_id) : '',
+        ward_id: member?.ward_id ? String(member.ward_id) : '',
+        polling_unit_id: member?.polling_unit_id ? String(member.polling_unit_id) : '',
     });
+    const [localGovernments, setLocalGovernments] = useState<LocationOption[]>([]);
+    const [wards, setWards] = useState<LocationOption[]>([]);
+    const [pollingUnits, setPollingUnits] = useState<LocationOption[]>([]);
+
+    useEffect(() => {
+        if (!form.state_id) return;
+        let current = true;
+        fetch(`/locations/states/${form.state_id}/local-governments`, { headers: { Accept: 'application/json' } })
+            .then((response) => response.json())
+            .then((options) => { if (current) setLocalGovernments(options); });
+        return () => { current = false; };
+    }, [form.state_id]);
+
+    useEffect(() => {
+        if (!form.local_government_id) return;
+        let current = true;
+        fetch(`/locations/local-governments/${form.local_government_id}/wards`, { headers: { Accept: 'application/json' } })
+            .then((response) => response.json())
+            .then((options) => { if (current) setWards(options); });
+        return () => { current = false; };
+    }, [form.local_government_id]);
+
+    useEffect(() => {
+        if (!form.ward_id) return;
+        let current = true;
+        fetch(`/locations/wards/${form.ward_id}/polling-units`, { headers: { Accept: 'application/json' } })
+            .then((response) => response.json())
+            .then((options) => { if (current) setPollingUnits(options); });
+        return () => { current = false; };
+    }, [form.ward_id]);
 
     const handleUpdate = () => {
         if (status !== member.status && !window.confirm(`Change this member's status to ${status}?`)) return;
@@ -55,10 +87,10 @@ export default function AdminMemberPage() {
                             <label className="grid gap-2 text-sm font-medium">Full Name<input value={form.full_name} onChange={(event) => setForm({ ...form, full_name: event.target.value })} className="rounded-xl border border-slate-200 px-4 py-3" />{errors?.full_name ? <span className="text-red-600">{errors.full_name}</span> : null}</label>
                             <label className="grid gap-2 text-sm font-medium">Replace VIN (optional)<input value={form.vin} onChange={(event) => setForm({ ...form, vin: event.target.value })} autoComplete="off" className="rounded-xl border border-slate-200 px-4 py-3" />{errors?.vin ? <span className="text-red-600">{errors.vin}</span> : null}</label>
                             <label className="grid gap-2 text-sm font-medium">Replace Phone Number (optional)<input value={form.phone_number} onChange={(event) => setForm({ ...form, phone_number: event.target.value })} autoComplete="off" className="rounded-xl border border-slate-200 px-4 py-3" />{errors?.phone_number ? <span className="text-red-600">{errors.phone_number}</span> : null}</label>
-                            <label className="grid gap-2 text-sm font-medium">State<select value={form.state} onChange={(event) => setForm({ ...form, state: event.target.value, lga: '' })} className="rounded-xl border border-slate-200 px-4 py-3">{(states ?? []).map((item: string) => <option key={item} value={item}>{item}</option>)}</select>{errors?.state ? <span className="text-red-600">{errors.state}</span> : null}</label>
-                            <label className="grid gap-2 text-sm font-medium">LGA<select value={form.lga} onChange={(event) => setForm({ ...form, lga: event.target.value })} className="rounded-xl border border-slate-200 px-4 py-3">{(lgas?.[form.state] ?? []).map((item: string) => <option key={item} value={item}>{item}</option>)}</select>{errors?.lga ? <span className="text-red-600">{errors.lga}</span> : null}</label>
-                            <label className="grid gap-2 text-sm font-medium">Ward<input value={form.ward} onChange={(event) => setForm({ ...form, ward: event.target.value })} className="rounded-xl border border-slate-200 px-4 py-3" />{errors?.ward ? <span className="text-red-600">{errors.ward}</span> : null}</label>
-                            <label className="grid gap-2 text-sm font-medium md:col-span-2">Polling Unit<input value={form.polling_unit} onChange={(event) => setForm({ ...form, polling_unit: event.target.value })} className="rounded-xl border border-slate-200 px-4 py-3" />{errors?.polling_unit ? <span className="text-red-600">{errors.polling_unit}</span> : null}</label>
+                            <label className="grid gap-2 text-sm font-medium">State<select value={form.state_id} onChange={(event) => { setLocalGovernments([]); setWards([]); setPollingUnits([]); setForm({ ...form, state_id: event.target.value, local_government_id: '', ward_id: '', polling_unit_id: '' }); }} className="rounded-xl border border-slate-200 px-4 py-3"><option value="">Select state</option>{(states ?? []).map((item: LocationOption) => <option key={item.id} value={item.id}>{item.name}</option>)}</select>{errors?.state_id ? <span className="text-red-600">{errors.state_id}</span> : null}</label>
+                            <label className="grid gap-2 text-sm font-medium">LGA<select value={form.local_government_id} disabled={!form.state_id} onChange={(event) => { setWards([]); setPollingUnits([]); setForm({ ...form, local_government_id: event.target.value, ward_id: '', polling_unit_id: '' }); }} className="rounded-xl border border-slate-200 px-4 py-3"><option value="">Select LGA</option>{localGovernments.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select>{errors?.local_government_id ? <span className="text-red-600">{errors.local_government_id}</span> : null}</label>
+                            <label className="grid gap-2 text-sm font-medium">Ward<select value={form.ward_id} disabled={!form.local_government_id} onChange={(event) => { setPollingUnits([]); setForm({ ...form, ward_id: event.target.value, polling_unit_id: '' }); }} className="rounded-xl border border-slate-200 px-4 py-3"><option value="">Select ward</option>{wards.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select>{errors?.ward_id ? <span className="text-red-600">{errors.ward_id}</span> : null}</label>
+                            <label className="grid gap-2 text-sm font-medium md:col-span-2">Polling Unit<select value={form.polling_unit_id} disabled={!form.ward_id} onChange={(event) => setForm({ ...form, polling_unit_id: event.target.value })} className="rounded-xl border border-slate-200 px-4 py-3"><option value="">Select polling unit</option>{pollingUnits.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select>{errors?.polling_unit_id ? <span className="text-red-600">{errors.polling_unit_id}</span> : null}</label>
                         </div>
                         <button type="submit" className="w-fit rounded-xl bg-[#0b1d36] px-5 py-3 font-semibold text-white">Save Corrections</button>
                     </form>

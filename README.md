@@ -18,6 +18,7 @@ mkdir -p database
 touch database/database.sqlite
 php artisan key:generate
 php artisan migrate
+php artisan db:seed
 npm install
 npm run build
 php artisan serve
@@ -50,9 +51,9 @@ Records Administrators can manage membership and contact messages. Only Super Ad
 
 ## Registration and Location Data
 
-VIN and phone values are encrypted with Laravel's application key. Keyed hashes support duplicate checks and exact-value search without plaintext lookup columns. Member lists mask both values. CSV exports omit VIN and phone. State/LGA choices are validated on the server. Ward and polling-unit values are manual text because no verified official dataset is bundled.
+VIN and phone values are encrypted with Laravel's application key. Keyed hashes support duplicate checks and exact-value search without plaintext lookup columns. Member lists mask both values. CSV exports omit VIN and phone. State/LGA/ward/polling-unit choices are validated against the normalized location catalog on the server. The catalog is loaded from the supplied `states-and-lgas-and-wards-and-polling-units.json` dataset.
 
-The seven covered administrative areas are configured in `config/ancyn.php`, including their LGA choices. Review that reference list against current official sources before production use. Do not add fabricated ward/polling-unit options or claim INEC verification.
+The seven covered administrative areas are selected from the supplied dataset during seeding. Eighteen exact duplicate polling-unit labels within a ward are represented once by the database's natural-key constraint. Verify the dataset against current official sources before production use. Do not claim INEC verification.
 
 ## Retention and Backups
 
@@ -73,7 +74,7 @@ Back up the database using your database provider's encrypted backup mechanism a
 1. Configure production environment variables and a least-privilege database account. Set `APP_ENV=production`, `APP_DEBUG=false`, `APP_URL`, database connection values, a secure session driver/cookie configuration, and mail/logging settings as appropriate.
 2. Install PHP dependencies with `composer install --no-dev --optimize-autoloader`.
 3. Install JavaScript dependencies and run `npm run build` in the release build environment.
-4. Run `php artisan migrate --force` as a controlled deployment step.
+4. Run `php artisan migrate --force` as a controlled deployment step, then `php artisan db:seed --force` to import the ANCYN State/LGA/Ward/Polling Unit catalog. The seeder is idempotent and creates no administrator account.
 5. Create or rotate administrators using `php artisan ancy:make-admin` from a trusted terminal.
 6. Point the web server document root at `public/`; enable HTTPS and ensure `storage/` and `bootstrap/cache/` are writable by the application user but not publicly browsable.
 7. Run `php artisan config:cache`, `php artisan route:cache`, and `php artisan view:cache` after environment configuration.

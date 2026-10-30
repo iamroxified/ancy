@@ -14,6 +14,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Production seeders must not create administrator accounts.
+        $this->call(LocationCatalogSeeder::class);
     }
 }

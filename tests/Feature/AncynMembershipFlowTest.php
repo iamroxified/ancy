@@ -1,9 +1,15 @@
 <?php
 
-use App\Models\User;
-use App\Models\Member;
+use App\Models\AuditLog;
 use App\Models\ContactMessage;
+use App\Models\LocalGovernment;
+use App\Models\LocationState;
+use App\Models\LocationWard;
+use App\Models\Member;
+use App\Models\PollingUnit;
 use App\Models\SiteSetting;
+use App\Models\User;
+use Database\Seeders\LocationCatalogSeeder;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Hash;
@@ -11,15 +17,32 @@ use Inertia\Testing\AssertableInertia as Assert;
 
 uses(WithFaker::class);
 
+beforeEach(function () {
+    $this->seed(LocationCatalogSeeder::class);
+});
+
+function memberLocationSelection(string $stateCode = 'kogi'): array
+{
+    $state = LocationState::query()->where('code', $stateCode)->firstOrFail();
+    $localGovernment = LocalGovernment::query()->where('location_state_id', $state->id)->firstOrFail();
+    $ward = LocationWard::query()->where('local_government_id', $localGovernment->id)->firstOrFail();
+    $pollingUnit = PollingUnit::query()->where('location_ward_id', $ward->id)->firstOrFail();
+
+    return [
+        'state_id' => $state->id,
+        'local_government_id' => $localGovernment->id,
+        'ward_id' => $ward->id,
+        'polling_unit_id' => $pollingUnit->id,
+    ];
+}
+
 test('a visitor can register a member with valid data', function () {
+    $selection = memberLocationSelection();
     $response = $this->post('/register/member', [
         'full_name' => 'Ada Okafor',
         'vin' => 'AB12345678',
         'phone_number' => '08031234567',
-        'state' => 'Kogi',
-        'lga' => 'Lokoja',
-        'ward' => 'Kabawa',
-        'polling_unit' => 'PU 12',
+        ...$selection,
         'privacy_consent' => '1',
     ]);
 
@@ -27,6 +50,7 @@ test('a visitor can register a member with valid data', function () {
     $this->assertDatabaseHas('members', [
         'full_name' => 'Ada Okafor',
         'state' => 'Kogi',
+        'polling_unit_id' => $selection['polling_unit_id'],
     ]);
 });
 
@@ -35,10 +59,7 @@ test('duplicate VIN registrations are rejected', function () {
         'full_name' => 'Ada Okafor',
         'vin' => 'AB12345678',
         'phone_number' => '08031234567',
-        'state' => 'Kogi',
-        'lga' => 'Lokoja',
-        'ward' => 'Kabawa',
-        'polling_unit' => 'PU 12',
+        ...memberLocationSelection(),
         'privacy_consent' => '1',
     ]);
 
@@ -46,10 +67,7 @@ test('duplicate VIN registrations are rejected', function () {
         'full_name' => 'Ada Okafor Two',
         'vin' => 'AB12345678',
         'phone_number' => '08031234568',
-        'state' => 'Benue',
-        'lga' => 'Makurdi',
-        'ward' => 'Modern Market',
-        'polling_unit' => 'PU 03',
+        ...memberLocationSelection('benue'),
         'privacy_consent' => '1',
     ]);
 
@@ -61,15 +79,30 @@ test('a state cannot be paired with an LGA from another state', function () {
         'full_name' => 'Ada Okafor',
         'vin' => 'AB12345679',
         'phone_number' => '08031234567',
-        'state' => 'Kogi',
-        'lga' => 'Makurdi',
-        'ward' => 'Test Ward',
-        'polling_unit' => 'PU 12',
+        ...memberLocationSelection('benue'),
+        'state_id' => LocationState::query()->where('code', 'kogi')->value('id'),
         'privacy_consent' => '1',
     ]);
 
-    $response->assertSessionHasErrors('lga');
+    $response->assertSessionHasErrors('local_government_id');
     $this->assertDatabaseCount('members', 0);
+});
+
+test('location endpoints return only child options for the selected parent', function () {
+    $selection = memberLocationSelection();
+    $localGovernment = LocalGovernment::query()->findOrFail($selection['local_government_id']);
+    $ward = LocationWard::query()->findOrFail($selection['ward_id']);
+    $pollingUnit = PollingUnit::query()->findOrFail($selection['polling_unit_id']);
+
+    $this->getJson("/locations/states/{$selection['state_id']}/local-governments")
+        ->assertOk()
+        ->assertJsonFragment(['id' => $localGovernment->id, 'name' => $localGovernment->name]);
+    $this->getJson("/locations/local-governments/{$localGovernment->id}/wards")
+        ->assertOk()
+        ->assertJsonFragment(['id' => $ward->id, 'name' => $ward->name]);
+    $this->getJson("/locations/wards/{$ward->id}/polling-units")
+        ->assertOk()
+        ->assertJsonFragment(['id' => $pollingUnit->id, 'name' => $pollingUnit->name]);
 });
 
 test('invalid Nigerian phone numbers cannot register', function () {
@@ -77,10 +110,7 @@ test('invalid Nigerian phone numbers cannot register', function () {
         'full_name' => 'Ada Okafor',
         'vin' => 'AB12345689',
         'phone_number' => '12345',
-        'state' => 'Kogi',
-        'lga' => 'Lokoja',
-        'ward' => 'Kabawa',
-        'polling_unit' => 'PU 12',
+        ...memberLocationSelection(),
         'privacy_consent' => '1',
     ])->assertSessionHasErrors('phone_number');
 
@@ -92,18 +122,15 @@ test('member identity values are encrypted and phone lookup handles local format
         'full_name' => 'Ada Okafor',
         'vin' => 'AB12345680',
         'phone_number' => '08031234567',
-        'state' => 'Kogi',
-        'lga' => 'Lokoja',
-        'ward' => 'Kabawa',
-        'polling_unit' => 'PU 12',
+        ...memberLocationSelection(),
         'privacy_consent' => '1',
     ]);
 
-    $member = \App\Models\Member::query()->firstOrFail();
+    $member = Member::query()->firstOrFail();
 
     expect($member->getRawOriginal('vin'))->not->toBe('AB12345680')
         ->and($member->getRawOriginal('phone_number'))->not->toBe('+2348031234567')
-        ->and(\App\Models\Member::hashPhone('08031234567'))->toBe(\App\Models\Member::hashPhone('+2348031234567'));
+        ->and(Member::hashPhone('08031234567'))->toBe(Member::hashPhone('+2348031234567'));
 });
 
 test('admin users can sign in to the dashboard', function () {
@@ -168,6 +195,20 @@ test('database seeding does not create a default administrator', function () {
     Artisan::call('db:seed');
 
     expect(User::query()->count())->toBe(0);
+});
+
+test('location catalog seeding imports only ANCYN coverage and is idempotent', function () {
+    expect(LocationState::query()->count())->toBe(7)
+        ->and(LocalGovernment::query()->count())->toBe(121)
+        ->and(LocationWard::query()->count())->toBe(1398)
+        ->and(PollingUnit::query()->count())->toBe(15598);
+
+    $this->seed(LocationCatalogSeeder::class);
+
+    expect(LocationState::query()->count())->toBe(7)
+        ->and(LocalGovernment::query()->count())->toBe(121)
+        ->and(LocationWard::query()->count())->toBe(1398)
+        ->and(PollingUnit::query()->count())->toBe(15598);
 });
 
 test('first administrator setup prompts for a private strong password', function () {
@@ -260,17 +301,14 @@ test('admins can correct member details and the audit log omits sensitive values
         'full_name' => 'Ada Okafor Updated',
         'vin' => 'AB12345684',
         'phone_number' => '08031234568',
-        'state' => 'Kogi',
-        'lga' => 'Lokoja',
-        'ward' => 'New Ward',
-        'polling_unit' => 'PU 19',
+        ...memberLocationSelection(),
     ])->assertSessionHasNoErrors();
 
     expect($member->fresh()->full_name)->toBe('Ada Okafor Updated')
         ->and($member->fresh()->vin)->toBe('AB12345684')
         ->and($member->fresh()->phone_number)->toBe('+2348031234568');
 
-    $auditLog = \App\Models\AuditLog::query()->where('action', 'member_record_updated')->firstOrFail();
+    $auditLog = AuditLog::query()->where('action', 'member_record_updated')->firstOrFail();
     expect($auditLog->details['fields'])->toContain('vin', 'phone_number', 'ward')
         ->and(json_encode($auditLog->details))->not->toContain('AB12345684', '+2348031234568');
 });
@@ -295,7 +333,7 @@ test('CSV export excludes identity values and audit metadata excludes search tex
     expect($csv)->toContain("'=HYPERLINK")
         ->and($csv)->not->toContain('AB12345687', '+2348031234567');
 
-    $auditLog = \App\Models\AuditLog::query()->where('action', 'member_exported')->firstOrFail();
+    $auditLog = AuditLog::query()->where('action', 'member_exported')->firstOrFail();
     expect(json_encode($auditLog->details))->not->toContain('AB12345687');
 });
 
@@ -340,7 +378,7 @@ test('configured retention deletes only expired data and records aggregate audit
 
     $this->assertDatabaseMissing('members', ['id' => $expiredMember->id]);
     $this->assertDatabaseMissing('contact_messages', ['id' => $expiredMessage->id]);
-    $auditLog = \App\Models\AuditLog::query()->where('action', 'retention_purge_completed')->firstOrFail();
+    $auditLog = AuditLog::query()->where('action', 'retention_purge_completed')->firstOrFail();
     expect($auditLog->details)->toBe(['members' => 1, 'contact_messages' => 1]);
 });
 

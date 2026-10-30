@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminMemberController;
 use App\Http\Controllers\AdminContactMessageController;
 use App\Http\Controllers\MemberRegistrationController;
+use App\Http\Controllers\LocationCatalogController;
 use App\Http\Controllers\PublicPageController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,6 +18,9 @@ Route::get('/register/confirmation', [MemberRegistrationController::class, 'conf
 Route::get('/contact', [PublicPageController::class, 'contactPage'])->name('contact');
 Route::post('/contact', [PublicPageController::class, 'submitContact'])->middleware('throttle:5,1')->name('contact.submit');
 Route::get('/privacy', [PublicPageController::class, 'privacyPage'])->name('privacy');
+Route::get('/locations/states/{state}/local-governments', [LocationCatalogController::class, 'localGovernments'])->name('locations.local-governments');
+Route::get('/locations/local-governments/{localGovernment}/wards', [LocationCatalogController::class, 'wards'])->name('locations.wards');
+Route::get('/locations/wards/{locationWard}/polling-units', [LocationCatalogController::class, 'pollingUnits'])->name('locations.polling-units');
 
 Route::get('/admin/login', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
 Route::post('/admin/login', [AdminAuthController::class, 'login'])->middleware('throttle:5,1')->name('admin.login.submit');

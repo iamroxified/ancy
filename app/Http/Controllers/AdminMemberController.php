@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\AuditLog;
+use App\Models\LocalGovernment;
+use App\Models\LocationState;
+use App\Models\LocationWard;
 use App\Models\Member;
+use App\Models\PollingUnit;
 use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -15,6 +19,15 @@ class AdminMemberController extends Controller
     public function show(Member $member)
     {
         AuditLog::record('member_record_viewed', ['member_id' => $member->id, 'membership_number' => $member->membership_number], Member::class, $member->id);
+        $member->load('pollingUnit.ward.localGovernment.state');
+        $state = $member->pollingUnit?->ward?->localGovernment?->state
+            ?? LocationState::query()->where('name', $member->state)->first();
+        $localGovernment = $member->pollingUnit?->ward?->localGovernment
+            ?? LocalGovernment::query()->where('location_state_id', $state?->id)->where('name', $member->lga)->first();
+        $ward = $member->pollingUnit?->ward
+            ?? LocationWard::query()->where('local_government_id', $localGovernment?->id)->where('name', $member->ward)->first();
+        $pollingUnit = $member->pollingUnit
+            ?? PollingUnit::query()->where('location_ward_id', $ward?->id)->where('name', $member->polling_unit)->first();
 
         return Inertia::render('admin/member', [
             'member' => [
@@ -29,39 +42,43 @@ class AdminMemberController extends Controller
                 'polling_unit' => $member->polling_unit,
                 'status' => $member->status,
                 'created_at' => $member->created_at?->format('Y-m-d H:i:s'),
+                'state_id' => $state?->id,
+                'local_government_id' => $localGovernment?->id,
+                'ward_id' => $ward?->id,
+                'polling_unit_id' => $pollingUnit?->id,
             ],
-            'states' => config('ancyn.states'),
-            'lgas' => config('ancyn.lgas'),
+            'states' => LocationState::query()->orderBy('name')->get(['id', 'name']),
         ]);
     }
 
     public function update(Request $request, Member $member)
     {
-        $state = $request->input('state');
-        $stateLgas = config('ancyn.lgas', [])[$state] ?? [];
         $validated = $request->validate([
             'full_name' => ['required', 'string', 'max:255'],
             'vin' => ['nullable', 'string', 'min:5', 'max:25', 'regex:/^[A-Za-z0-9]+$/'],
             'phone_number' => ['nullable', 'string', 'regex:/^(\\+234|234|0)[789][01]\\d{8}$/'],
-            'state' => ['required', Rule::in(config('ancyn.states'))],
-            'lga' => ['required', 'string', 'max:150', Rule::in($stateLgas)],
-            'ward' => ['required', 'string', 'max:150'],
-            'polling_unit' => ['required', 'string', 'max:200'],
+            'state_id' => ['required', 'integer', 'exists:location_states,id'],
+            'local_government_id' => ['required', 'integer', Rule::exists('local_governments', 'id')->where('location_state_id', $request->input('state_id'))],
+            'ward_id' => ['required', 'integer', Rule::exists('location_wards', 'id')->where('local_government_id', $request->input('local_government_id'))],
+            'polling_unit_id' => ['required', 'integer', Rule::exists('polling_units', 'id')->where('location_ward_id', $request->input('ward_id'))],
         ]);
+
+        $pollingUnit = PollingUnit::query()->with('ward.localGovernment.state')->findOrFail($validated['polling_unit_id']);
 
         $updates = [
             'full_name' => trim($validated['full_name']),
-            'state' => $validated['state'],
-            'lga' => trim($validated['lga']),
-            'ward' => trim($validated['ward']),
-            'polling_unit' => trim($validated['polling_unit']),
+            'state' => $pollingUnit->ward->localGovernment->state->name,
+            'lga' => $pollingUnit->ward->localGovernment->name,
+            'ward' => $pollingUnit->ward->name,
+            'polling_unit' => $pollingUnit->name,
+            'polling_unit_id' => $pollingUnit->id,
         ];
         $changedFields = [];
 
         foreach ($updates as $field => $value) {
-            if ($member->{$field} !== $value) {
+            if ($member->{$field} !== $value || ($field === 'polling_unit_id' && (int) $member->{$field} !== (int) $value)) {
                 $member->{$field} = $value;
-                $changedFields[] = $field;
+                $changedFields[] = $field === 'polling_unit_id' ? 'polling_unit' : $field;
             }
         }
 

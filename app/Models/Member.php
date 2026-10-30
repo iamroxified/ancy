@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Str;
 
@@ -21,6 +22,7 @@ class Member extends Model
         'lga',
         'ward',
         'polling_unit',
+        'polling_unit_id',
         'privacy_consent_at',
         'status',
     ];
@@ -47,6 +49,11 @@ class Member extends Model
     public static function states(): array
     {
         return config('ancyn.states', []);
+    }
+
+    public function pollingUnit(): BelongsTo
+    {
+        return $this->belongsTo(PollingUnit::class);
     }
 
     public static function generateMembershipNumber(): string
