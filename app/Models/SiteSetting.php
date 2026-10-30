@@ -36,6 +36,8 @@ class SiteSetting extends Model
             'objectives' => json_encode(config('ancyn.default_objectives')),
             'programs' => json_encode(config('ancyn.default_programs')),
             'privacy_notice' => config('ancyn.default_privacy'),
+            'member_retention_days' => config('ancyn.retention.member_days'),
+            'contact_message_retention_days' => config('ancyn.retention.contact_message_days'),
             'contact_email' => config('ancyn.default_contact.email'),
             'contact_phone' => config('ancyn.default_contact.phone'),
             'contact_address' => config('ancyn.default_contact.address'),

@@ -27,10 +27,7 @@ export default function PrivacyPage() {
                         <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#0d6b4f]">Privacy Notice</p>
                         <h1 className="mt-4 text-4xl font-bold tracking-tight text-slate-900">Responsible handling of member data.</h1>
                         <div className="mt-8 space-y-6 text-slate-700">
-                            <p>{privacyText}</p>
-                            <p>ANCYN collects personal and polling-unit information for membership administration, communications, governance, and reporting. This information is used only for legitimate membership-management objectives and is not made public.</p>
-                            <p>Access is restricted to authorized administrators. We encrypt sensitive records, limit data retention where required, and retain audit logs for security and accountability without storing unnecessary personal information.</p>
-                            <p>Members may request corrections or deletion where applicable, subject to legal and operational requirements, by contacting the organization through the contact page.</p>
+                            {String(privacyText).split(/\n\s*\n/).map((paragraph: string, index: number) => <p key={index}>{paragraph}</p>)}
                         </div>
                     </div>
                 </main>

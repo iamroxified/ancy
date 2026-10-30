@@ -73,6 +73,8 @@ class AdminDashboardController extends Controller
                 'objectives' => implode("\n", $this->settingList('objectives', config('ancyn.default_objectives'))),
                 'programs' => implode("\n", $this->settingList('programs', config('ancyn.default_programs'))),
                 'privacy_notice' => SiteSetting::value('privacy_notice', config('ancyn.default_privacy')),
+                'member_retention_days' => SiteSetting::value('member_retention_days', config('ancyn.retention.member_days')),
+                'contact_message_retention_days' => SiteSetting::value('contact_message_retention_days', config('ancyn.retention.contact_message_days')),
                 'contact_email' => SiteSetting::value('contact_email', config('ancyn.default_contact.email')),
                 'contact_phone' => SiteSetting::value('contact_phone', config('ancyn.default_contact.phone')),
                 'contact_address' => SiteSetting::value('contact_address', config('ancyn.default_contact.address')),
@@ -95,6 +97,8 @@ class AdminDashboardController extends Controller
             'objectives' => ['required', 'string', 'max:10000'],
             'programs' => ['required', 'string', 'max:10000'],
             'privacy_notice' => ['required', 'string', 'max:10000'],
+            'member_retention_days' => ['required', 'integer', 'min:0', 'max:36500'],
+            'contact_message_retention_days' => ['required', 'integer', 'min:0', 'max:36500'],
             'contact_email' => ['nullable', 'email', 'max:255'],
             'contact_phone' => ['nullable', 'string', 'max:60'],
             'contact_address' => ['nullable', 'string', 'max:500'],
@@ -118,6 +122,8 @@ class AdminDashboardController extends Controller
             'objectives' => 'objectives',
             'programs' => 'programs',
             'privacy_notice' => 'privacy_notice',
+            'member_retention_days' => 'member_retention_days',
+            'contact_message_retention_days' => 'contact_message_retention_days',
             'contact_email' => 'contact_email',
             'contact_phone' => 'contact_phone',
             'contact_address' => 'contact_address',
@@ -141,27 +147,34 @@ class AdminDashboardController extends Controller
     {
         $filters = $this->validatedFilters($request);
         $query = $this->filteredMembers($filters);
+        $auditFilters = $filters;
+        $searchPerformed = ! empty($auditFilters['search']);
+        unset($auditFilters['search']);
         AuditLog::record('member_exported', [
-            'filters' => array_filter($filters, fn ($value) => $value !== null && $value !== ''),
+            'filters' => array_filter($auditFilters, fn ($value) => $value !== null && $value !== ''),
+            'search_performed' => $searchPerformed,
             'includes_sensitive_fields' => false,
         ]);
 
         $filename = 'ancyn_members_'.now()->format('Ymd_His').'.csv';
 
-        return response()->streamDownload(function () use ($query) {
+        $sort = $filters['sort'] ?? 'created_at';
+        $direction = $filters['direction'] ?? 'desc';
+
+        return response()->streamDownload(function () use ($query, $sort, $direction) {
             $handle = fopen('php://output', 'wb');
             fputcsv($handle, ['Membership Number', 'Full Name', 'State', 'LGA', 'Ward', 'Polling Unit', 'Status', 'Created At']);
 
-            foreach ($query->orderByDesc('created_at')->cursor() as $member) {
+            foreach ($query->orderBy($sort, $direction)->cursor() as $member) {
                 fputcsv($handle, [
-                    $member->membership_number,
-                    $member->full_name,
-                    $member->state,
-                    $member->lga,
-                    $member->ward,
-                    $member->polling_unit,
-                    $member->status,
-                    $member->created_at->format('Y-m-d H:i:s'),
+                    $this->csvSafe($member->membership_number),
+                    $this->csvSafe($member->full_name),
+                    $this->csvSafe($member->state),
+                    $this->csvSafe($member->lga),
+                    $this->csvSafe($member->ward),
+                    $this->csvSafe($member->polling_unit),
+                    $this->csvSafe($member->status),
+                    $this->csvSafe($member->created_at->format('Y-m-d H:i:s')),
                 ]);
             }
 
@@ -244,5 +257,10 @@ class AdminDashboardController extends Controller
         $list = json_decode((string) $value, true);
 
         return is_array($list) ? array_values(array_filter($list, 'is_string')) : $default;
+    }
+
+    private function csvSafe(string $value): string
+    {
+        return preg_match('/^[\t\r ]*[=+\-@]/', $value) ? "'".$value : $value;
     }
 }

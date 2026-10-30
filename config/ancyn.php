@@ -57,5 +57,9 @@ return [
         'Innovation and digital literacy',
         'Peacebuilding and social inclusion projects',
     ],
-    'default_privacy' => 'ANCYN collects member information only for legitimate membership administration, communication, and reporting. We do not use this information for political persuasion or partisan targeting.',
+    'default_privacy' => "ANCYN collects membership details, including name, Voter Identification Number, phone number, and manually entered ward and polling-unit details, only for membership administration and related communications. Contact-form submissions are stored so authorized administrators can respond. Do not submit voter-card images, passwords, financial details, or information about another person.\n\nVIN and phone values are encrypted in the database. Duplicate detection uses keyed hashes. Full values are not shown in the member list, exported reports, or audit logs. Access is restricted to authenticated administrators, and viewing records, exports, edits, and status changes are audited. ANCYN does not verify VINs against INEC systems and does not use this information for political persuasion or partisan targeting.\n\nRecords are retained until an authorized Super Admin configures an automated retention period or a valid correction/deletion request is handled. A retention value of zero disables automatic deletion. You may send a request using the contact form; requests are handled subject to applicable legal and operational requirements, including the Nigeria Data Protection Act where applicable. Registration does not constitute voter registration, electoral verification, or proof of membership approval.",
+    'retention' => [
+        'member_days' => 0,
+        'contact_message_days' => 0,
+    ],
 ];

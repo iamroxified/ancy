@@ -72,6 +72,21 @@ test('a state cannot be paired with an LGA from another state', function () {
     $this->assertDatabaseCount('members', 0);
 });
 
+test('invalid Nigerian phone numbers cannot register', function () {
+    $this->post('/register/member', [
+        'full_name' => 'Ada Okafor',
+        'vin' => 'AB12345689',
+        'phone_number' => '12345',
+        'state' => 'Kogi',
+        'lga' => 'Lokoja',
+        'ward' => 'Kabawa',
+        'polling_unit' => 'PU 12',
+        'privacy_consent' => '1',
+    ])->assertSessionHasErrors('phone_number');
+
+    $this->assertDatabaseCount('members', 0);
+});
+
 test('member identity values are encrypted and phone lookup handles local format', function () {
     $this->post('/register/member', [
         'full_name' => 'Ada Okafor',
@@ -212,6 +227,8 @@ test('only super admins can access and update public website settings', function
         'objectives' => "Youth empowerment\nPeacebuilding",
         'programs' => "Mentorship\nDigital skills",
         'privacy_notice' => 'Updated privacy information.',
+        'member_retention_days' => 0,
+        'contact_message_retention_days' => 0,
         'contact_email' => '',
         'contact_phone' => '',
         'contact_address' => '',
@@ -256,4 +273,91 @@ test('admins can correct member details and the audit log omits sensitive values
     $auditLog = \App\Models\AuditLog::query()->where('action', 'member_record_updated')->firstOrFail();
     expect($auditLog->details['fields'])->toContain('vin', 'phone_number', 'ward')
         ->and(json_encode($auditLog->details))->not->toContain('AB12345684', '+2348031234568');
+});
+
+test('CSV export excludes identity values and audit metadata excludes search text', function () {
+    $admin = User::factory()->create(['role' => 'records_admin']);
+    Member::query()->create([
+        'full_name' => '=HYPERLINK("https://example.invalid")',
+        'vin' => 'AB12345687',
+        'phone_number' => '+2348031234567',
+        'state' => 'Kogi',
+        'lga' => 'Lokoja',
+        'ward' => 'Kabawa',
+        'polling_unit' => 'PU 12',
+        'privacy_consent_at' => now(),
+        'status' => 'pending',
+    ]);
+
+    $response = $this->actingAs($admin)->get('/admin/export?search=AB12345687');
+    $response->assertOk();
+    $csv = $response->streamedContent();
+    expect($csv)->toContain("'=HYPERLINK")
+        ->and($csv)->not->toContain('AB12345687', '+2348031234567');
+
+    $auditLog = \App\Models\AuditLog::query()->where('action', 'member_exported')->firstOrFail();
+    expect(json_encode($auditLog->details))->not->toContain('AB12345687');
+});
+
+test('admin login is rate limited and public responses include security headers', function () {
+    for ($attempt = 0; $attempt < 5; $attempt++) {
+        $this->post('/admin/login', ['email' => 'invalid@example.org', 'password' => 'incorrect']);
+    }
+
+    $this->post('/admin/login', ['email' => 'invalid@example.org', 'password' => 'incorrect'])
+        ->assertTooManyRequests();
+
+    $this->get('/')->assertHeader('X-Content-Type-Options', 'nosniff')
+        ->assertHeader('X-Frame-Options', 'DENY');
+});
+
+test('configured retention deletes only expired data and records aggregate audit counts', function () {
+    SiteSetting::query()->updateOrCreate(['key' => 'member_retention_days'], ['value' => '30']);
+    SiteSetting::query()->updateOrCreate(['key' => 'contact_message_retention_days'], ['value' => '30']);
+
+    $expiredMember = Member::query()->create([
+        'full_name' => 'Expired Member',
+        'vin' => 'AB12345685',
+        'phone_number' => '+2348031234567',
+        'state' => 'Kogi',
+        'lga' => 'Lokoja',
+        'ward' => 'Kabawa',
+        'polling_unit' => 'PU 12',
+        'privacy_consent_at' => now()->subDays(45),
+    ]);
+    $expiredMember->forceFill(['created_at' => now()->subDays(45), 'updated_at' => now()->subDays(45)])->saveQuietly();
+
+    $expiredMessage = ContactMessage::query()->create([
+        'name' => 'Old Sender',
+        'email' => 'old@example.org',
+        'subject' => 'Old message',
+        'message' => 'No longer needed.',
+        'status' => 'resolved',
+    ]);
+    $expiredMessage->forceFill(['created_at' => now()->subDays(45), 'updated_at' => now()->subDays(45)])->saveQuietly();
+
+    Artisan::call('ancy:purge-expired-data');
+
+    $this->assertDatabaseMissing('members', ['id' => $expiredMember->id]);
+    $this->assertDatabaseMissing('contact_messages', ['id' => $expiredMessage->id]);
+    $auditLog = \App\Models\AuditLog::query()->where('action', 'retention_purge_completed')->firstOrFail();
+    expect($auditLog->details)->toBe(['members' => 1, 'contact_messages' => 1]);
+});
+
+test('retention is disabled by default', function () {
+    Member::query()->create([
+        'full_name' => 'Retained Member',
+        'vin' => 'AB12345686',
+        'phone_number' => '+2348031234567',
+        'state' => 'Kogi',
+        'lga' => 'Lokoja',
+        'ward' => 'Kabawa',
+        'polling_unit' => 'PU 12',
+        'privacy_consent_at' => now()->subYears(10),
+    ]);
+    Member::query()->firstOrFail()->forceFill(['created_at' => now()->subYears(10)])->saveQuietly();
+
+    Artisan::call('ancy:purge-expired-data');
+
+    expect(Member::query()->count())->toBe(1);
 });

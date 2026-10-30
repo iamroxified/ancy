@@ -44,7 +44,9 @@ export default function AdminDashboardPage() {
     const exportQuery = new URLSearchParams({ search: query, status, state, lga, ward, polling_unit: pollingUnit, from, to }).toString();
 
     const handleStatusUpdate = (id: number, statusValue: string) => {
+        if (!window.confirm(`Change this member's status to ${statusValue}?`)) return false;
         router.post(`/admin/members/${id}/status`, { status: statusValue }, { preserveScroll: true });
+        return true;
     };
 
     return (
@@ -157,7 +159,7 @@ export default function AdminDashboardPage() {
                                             <td className="px-4 py-3 text-sm text-slate-700">{member.ward}<br />{member.polling_unit}</td>
                                             <td className="px-4 py-3 text-sm text-slate-700">{member.created_at}</td>
                                             <td className="px-4 py-3 text-sm">
-                                                <select defaultValue={member.status} onChange={(e) => handleStatusUpdate(member.id, e.target.value)} className="rounded-lg border border-slate-200 bg-slate-50 px-2 py-1 text-xs">
+                                                <select defaultValue={member.status} onChange={(e) => { if (!handleStatusUpdate(member.id, e.target.value)) e.currentTarget.value = member.status; }} className="rounded-lg border border-slate-200 bg-slate-50 px-2 py-1 text-xs">
                                                     {(statuses ?? []).map((item: string) => <option key={item} value={item}>{item}</option>)}
                                                 </select>
                                             </td>

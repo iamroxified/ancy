@@ -3,7 +3,7 @@ import { router } from '@inertiajs/core';
 import { FormEvent, useState } from 'react';
 
 export default function AdminSettingsPage() {
-    const { settings } = usePage().props as any;
+    const { settings, errors, flash } = usePage().props as any;
     const [form, setForm] = useState({
         organization_name: settings?.organization_name ?? '',
         about_us: settings?.about_us ?? '',
@@ -13,6 +13,8 @@ export default function AdminSettingsPage() {
         objectives: settings?.objectives ?? '',
         programs: settings?.programs ?? '',
         privacy_notice: settings?.privacy_notice ?? '',
+        member_retention_days: settings?.member_retention_days ?? 0,
+        contact_message_retention_days: settings?.contact_message_retention_days ?? 0,
         contact_email: settings?.contact_email ?? '',
         contact_phone: settings?.contact_phone ?? '',
         contact_address: settings?.contact_address ?? '',
@@ -41,6 +43,8 @@ export default function AdminSettingsPage() {
                     </div>
 
                     <form onSubmit={handleSubmit} className="grid gap-6">
+                        {flash?.success ? <p role="status" className="rounded-lg bg-green-50 p-3 text-sm text-green-800">{flash.success}</p> : null}
+                        {Object.keys(errors ?? {}).length > 0 ? <p role="alert" className="rounded-lg bg-red-50 p-3 text-sm text-red-800">Please review the highlighted settings and try again.</p> : null}
                         <div>
                             <label className="mb-2 block text-sm font-medium text-slate-700">Organization Name</label>
                             <input value={form.organization_name} onChange={(e) => setForm({ ...form, organization_name: e.target.value })} className="w-full rounded-xl border border-slate-200 px-4 py-3" />
@@ -69,6 +73,11 @@ export default function AdminSettingsPage() {
                             <label className="mb-2 block text-sm font-medium text-slate-700">Privacy Notice</label>
                             <textarea rows={6} value={form.privacy_notice} onChange={(e) => setForm({ ...form, privacy_notice: e.target.value })} className="w-full rounded-xl border border-slate-200 px-4 py-3" />
                         </div>
+                        <fieldset className="grid gap-4 rounded-xl border border-slate-200 p-4 md:grid-cols-2">
+                            <legend className="px-2 text-sm font-semibold">Data retention (0 disables automatic deletion)</legend>
+                            <label className="grid gap-2 text-sm font-medium">Member records, days<input type="number" min="0" max="36500" value={form.member_retention_days} onChange={(e) => setForm({ ...form, member_retention_days: Number(e.target.value) })} className="rounded-xl border border-slate-200 px-4 py-3" /></label>
+                            <label className="grid gap-2 text-sm font-medium">Contact messages, days<input type="number" min="0" max="36500" value={form.contact_message_retention_days} onChange={(e) => setForm({ ...form, contact_message_retention_days: Number(e.target.value) })} className="rounded-xl border border-slate-200 px-4 py-3" /></label>
+                        </fieldset>
                         <div className="grid gap-6 md:grid-cols-3">
                             <div>
                                 <label className="mb-2 block text-sm font-medium text-slate-700">Contact Email</label>

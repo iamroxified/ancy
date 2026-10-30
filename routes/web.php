@@ -19,7 +19,7 @@ Route::post('/contact', [PublicPageController::class, 'submitContact'])->middlew
 Route::get('/privacy', [PublicPageController::class, 'privacyPage'])->name('privacy');
 
 Route::get('/admin/login', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
-Route::post('/admin/login', [AdminAuthController::class, 'login'])->name('admin.login.submit');
+Route::post('/admin/login', [AdminAuthController::class, 'login'])->middleware('throttle:5,1')->name('admin.login.submit');
 Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
 
 Route::middleware(['auth', 'admin'])->group(function () {

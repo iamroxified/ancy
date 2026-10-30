@@ -159,9 +159,9 @@ export default function WelcomePage() {
                         <div>
                             <p className="font-semibold text-white">Contact</p>
                             <div className="mt-3 space-y-2 text-sm">
-                                <p>{contact?.email}</p>
-                                <p>{contact?.phone}</p>
-                                <p>{contact?.address}</p>
+                                <p>{contact?.email || 'Email: Not yet configured'}</p>
+                                <p>{contact?.phone || 'Phone: Not yet configured'}</p>
+                                <p>{contact?.address || 'Address: Not yet configured'}</p>
                             </div>
                         </div>
                     </div>
