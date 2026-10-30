@@ -1,0 +1,52 @@
+<?php
+
+return [
+    'organization_name' => 'Alliance of North Central Youth of Nigeria',
+    'abbreviation' => 'ANCYN',
+    'states' => [
+        'Benue',
+        'Kogi',
+        'Kwara',
+        'Nasarawa',
+        'Niger',
+        'Plateau',
+        'Federal Capital Territory',
+    ],
+    'default_contact' => [
+        'email' => 'info@ancyng.org',
+        'phone' => '+234 800 000 0000',
+        'address' => 'North Central Nigeria',
+        'facebook' => 'https://facebook.com',
+        'x' => 'https://x.com',
+        'instagram' => 'https://instagram.com',
+        'linkedin' => 'https://linkedin.com',
+    ],
+    'default_about' => 'The Alliance of North Central Youth of Nigeria (ANCYN) is a regional, youth-driven organization committed to empowering young people across Nigeria’s North Central geopolitical zone.',
+    'default_vision' => 'To build a united, empowered, and progressive North Central region where young people are drivers of sustainable development, peace, and innovation.',
+    'default_mission' => 'To mobilize, empower, and connect the youth of the North Central zone through leadership training, socioeconomic programs, advocacy, community development initiatives, and partnerships that enhance youth participation in regional and national development.',
+    'default_core_values' => [
+        'Unity',
+        'Integrity',
+        'Innovation',
+        'Peace and Inclusiveness',
+        'Service',
+    ],
+    'default_objectives' => [
+        'Youth Empowerment',
+        'Advocacy',
+        'Economic Development',
+        'Peacebuilding',
+        'Collaboration',
+        'Community Development',
+        'Digital and Social Advancement',
+    ],
+    'default_programs' => [
+        'Leadership & mentorship programs',
+        'Youth entrepreneurship and skills development',
+        'Community development initiatives',
+        'Regional advocacy and civic engagement',
+        'Innovation and digital literacy',
+        'Peacebuilding and social inclusion projects',
+    ],
+    'default_privacy' => 'ANCYN collects member information only for legitimate membership administration, communication, and reporting. We do not use this information for political persuasion or partisan targeting.',
+];
