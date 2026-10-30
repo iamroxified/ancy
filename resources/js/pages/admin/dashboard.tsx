@@ -59,6 +59,7 @@ export default function AdminDashboardPage() {
                         </div>
                         <div className="flex items-center gap-4">
                                 <a href="/admin/settings" className="rounded-xl border border-white/20 px-4 py-2 text-sm font-medium text-white">Settings</a>
+                                <a href="/admin/messages" className="rounded-xl border border-white/20 px-4 py-2 text-sm font-medium text-white">Messages</a>
                             <button type="button" onClick={() => router.post('/admin/logout')} className="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-[#0b1d36]">Logout</button>
                         </div>
                     </header>

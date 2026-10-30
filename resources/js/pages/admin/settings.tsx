@@ -9,9 +9,17 @@ export default function AdminSettingsPage() {
         about_us: settings?.about_us ?? '',
         vision: settings?.vision ?? '',
         mission: settings?.mission ?? '',
+        core_values: settings?.core_values ?? '',
+        objectives: settings?.objectives ?? '',
+        programs: settings?.programs ?? '',
+        privacy_notice: settings?.privacy_notice ?? '',
         contact_email: settings?.contact_email ?? '',
         contact_phone: settings?.contact_phone ?? '',
         contact_address: settings?.contact_address ?? '',
+        facebook_url: settings?.facebook_url ?? '',
+        x_url: settings?.x_url ?? '',
+        instagram_url: settings?.instagram_url ?? '',
+        linkedin_url: settings?.linkedin_url ?? '',
     });
 
     const handleSubmit = (event: FormEvent) => {
@@ -49,6 +57,18 @@ export default function AdminSettingsPage() {
                             <label className="mb-2 block text-sm font-medium text-slate-700">Mission</label>
                             <textarea rows={3} value={form.mission} onChange={(e) => setForm({ ...form, mission: e.target.value })} className="w-full rounded-xl border border-slate-200 px-4 py-3" />
                         </div>
+                        <div className="grid gap-6 md:grid-cols-2">
+                            <div><label className="mb-2 block text-sm font-medium text-slate-700">Core Values (one per line)</label><textarea rows={5} value={form.core_values} onChange={(e) => setForm({ ...form, core_values: e.target.value })} className="w-full rounded-xl border border-slate-200 px-4 py-3" /></div>
+                            <div><label className="mb-2 block text-sm font-medium text-slate-700">Objectives (one per line)</label><textarea rows={5} value={form.objectives} onChange={(e) => setForm({ ...form, objectives: e.target.value })} className="w-full rounded-xl border border-slate-200 px-4 py-3" /></div>
+                        </div>
+                        <div>
+                            <label className="mb-2 block text-sm font-medium text-slate-700">Program Highlights (one per line)</label>
+                            <textarea rows={4} value={form.programs} onChange={(e) => setForm({ ...form, programs: e.target.value })} className="w-full rounded-xl border border-slate-200 px-4 py-3" />
+                        </div>
+                        <div>
+                            <label className="mb-2 block text-sm font-medium text-slate-700">Privacy Notice</label>
+                            <textarea rows={6} value={form.privacy_notice} onChange={(e) => setForm({ ...form, privacy_notice: e.target.value })} className="w-full rounded-xl border border-slate-200 px-4 py-3" />
+                        </div>
                         <div className="grid gap-6 md:grid-cols-3">
                             <div>
                                 <label className="mb-2 block text-sm font-medium text-slate-700">Contact Email</label>
@@ -62,6 +82,12 @@ export default function AdminSettingsPage() {
                                 <label className="mb-2 block text-sm font-medium text-slate-700">Office Address</label>
                                 <input value={form.contact_address} onChange={(e) => setForm({ ...form, contact_address: e.target.value })} className="w-full rounded-xl border border-slate-200 px-4 py-3" />
                             </div>
+                        </div>
+                        <div className="grid gap-6 md:grid-cols-2">
+                            <div><label className="mb-2 block text-sm font-medium text-slate-700">Facebook URL</label><input type="url" value={form.facebook_url} onChange={(e) => setForm({ ...form, facebook_url: e.target.value })} className="w-full rounded-xl border border-slate-200 px-4 py-3" /></div>
+                            <div><label className="mb-2 block text-sm font-medium text-slate-700">X URL</label><input type="url" value={form.x_url} onChange={(e) => setForm({ ...form, x_url: e.target.value })} className="w-full rounded-xl border border-slate-200 px-4 py-3" /></div>
+                            <div><label className="mb-2 block text-sm font-medium text-slate-700">Instagram URL</label><input type="url" value={form.instagram_url} onChange={(e) => setForm({ ...form, instagram_url: e.target.value })} className="w-full rounded-xl border border-slate-200 px-4 py-3" /></div>
+                            <div><label className="mb-2 block text-sm font-medium text-slate-700">LinkedIn URL</label><input type="url" value={form.linkedin_url} onChange={(e) => setForm({ ...form, linkedin_url: e.target.value })} className="w-full rounded-xl border border-slate-200 px-4 py-3" /></div>
                         </div>
                         <button type="submit" className="rounded-xl bg-[#0d6b4f] px-5 py-3 font-semibold text-white">Save Settings</button>
                     </form>

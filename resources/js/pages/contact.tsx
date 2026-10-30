@@ -3,9 +3,10 @@ import { router } from '@inertiajs/core';
 import { FormEvent, useState } from 'react';
 
 export default function ContactPage() {
-    const { contact } = usePage().props as any;
+    const { contact, errors } = usePage().props as any;
     const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
     const [submitted, setSubmitted] = useState(false);
+    const [processing, setProcessing] = useState(false);
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -14,6 +15,8 @@ export default function ContactPage() {
                 setSubmitted(true);
                 setForm({ name: '', email: '', subject: '', message: '' });
             },
+            onStart: () => setProcessing(true),
+            onFinish: () => setProcessing(false),
             preserveScroll: true,
         });
     };
@@ -42,15 +45,15 @@ export default function ContactPage() {
                         <p className="text-sm uppercase tracking-[0.2em] text-[#d4af37]">Contact Us</p>
                         <h1 className="mt-4 text-4xl font-bold">We are ready to listen.</h1>
                         <div className="mt-8 space-y-4 text-slate-200">
-                            <p>Email: {contact?.email}</p>
-                            <p>Phone: {contact?.phone}</p>
-                            <p>Address: {contact?.address}</p>
+                            <p>Email: {contact?.email || 'Not yet configured'}</p>
+                            <p>Phone: {contact?.phone || 'Not yet configured'}</p>
+                            <p>Address: {contact?.address || 'Not yet configured'}</p>
                         </div>
                         <div className="mt-8 flex gap-4 text-sm text-slate-200">
-                            <a href={contact?.facebook ?? '#'}>Facebook</a>
-                            <a href={contact?.x ?? '#'}>X</a>
-                            <a href={contact?.instagram ?? '#'}>Instagram</a>
-                            <a href={contact?.linkedin ?? '#'}>LinkedIn</a>
+                            {contact?.facebook ? <a href={contact.facebook} target="_blank" rel="noreferrer">Facebook</a> : null}
+                            {contact?.x ? <a href={contact.x} target="_blank" rel="noreferrer">X</a> : null}
+                            {contact?.instagram ? <a href={contact.instagram} target="_blank" rel="noreferrer">Instagram</a> : null}
+                            {contact?.linkedin ? <a href={contact.linkedin} target="_blank" rel="noreferrer">LinkedIn</a> : null}
                         </div>
                     </div>
 
@@ -59,21 +62,25 @@ export default function ContactPage() {
                             <div>
                                 <label className="mb-2 block text-sm font-medium text-slate-700">Full Name</label>
                                 <input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="w-full rounded-xl border border-slate-200 px-4 py-3" required />
+                                {errors?.name ? <p className="mt-2 text-sm text-red-600">{errors.name}</p> : null}
                             </div>
                             <div>
                                 <label className="mb-2 block text-sm font-medium text-slate-700">Email Address</label>
                                 <input type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className="w-full rounded-xl border border-slate-200 px-4 py-3" required />
+                                {errors?.email ? <p className="mt-2 text-sm text-red-600">{errors.email}</p> : null}
                             </div>
                             <div>
                                 <label className="mb-2 block text-sm font-medium text-slate-700">Subject</label>
                                 <input value={form.subject} onChange={(e) => setForm({ ...form, subject: e.target.value })} className="w-full rounded-xl border border-slate-200 px-4 py-3" required />
+                                {errors?.subject ? <p className="mt-2 text-sm text-red-600">{errors.subject}</p> : null}
                             </div>
                             <div>
                                 <label className="mb-2 block text-sm font-medium text-slate-700">Message</label>
                                 <textarea value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} rows={5} className="w-full rounded-xl border border-slate-200 px-4 py-3" required />
+                                {errors?.message ? <p className="mt-2 text-sm text-red-600">{errors.message}</p> : null}
                             </div>
-                            <button type="submit" className="rounded-xl bg-[#0d6b4f] px-5 py-3 font-semibold text-white">Send Message</button>
-                            {submitted ? <p className="text-sm text-green-700">Your message has been submitted successfully.</p> : null}
+                            <button type="submit" disabled={processing} className="rounded-xl bg-[#0d6b4f] px-5 py-3 font-semibold text-white disabled:opacity-60">{processing ? 'Sending…' : 'Send Message'}</button>
+                            {submitted ? <p role="status" className="text-sm text-green-700">Your message has been submitted successfully.</p> : null}
                         </div>
                     </form>
                 </main>

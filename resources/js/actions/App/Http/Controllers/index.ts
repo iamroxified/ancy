@@ -3,6 +3,7 @@ import MemberRegistrationController from './MemberRegistrationController'
 import AdminAuthController from './AdminAuthController'
 import AdminDashboardController from './AdminDashboardController'
 import AdminMemberController from './AdminMemberController'
+import AdminContactMessageController from './AdminContactMessageController'
 import Settings from './Settings'
 
 const Controllers = {
@@ -11,6 +12,7 @@ const Controllers = {
     AdminAuthController: Object.assign(AdminAuthController, AdminAuthController),
     AdminDashboardController: Object.assign(AdminDashboardController, AdminDashboardController),
     AdminMemberController: Object.assign(AdminMemberController, AdminMemberController),
+    AdminContactMessageController: Object.assign(AdminContactMessageController, AdminContactMessageController),
     Settings: Object.assign(Settings, Settings),
 }
 

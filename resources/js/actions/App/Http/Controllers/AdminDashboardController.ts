@@ -1,7 +1,7 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\AdminDashboardController::index
-* @see app/Http/Controllers/AdminDashboardController.php:13
+* @see app/Http/Controllers/AdminDashboardController.php:15
 * @route '/admin'
 */
 const index35f58437d9250c39f332f5e8e70440b7 = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -16,7 +16,7 @@ index35f58437d9250c39f332f5e8e70440b7.definition = {
 
 /**
 * @see \App\Http\Controllers\AdminDashboardController::index
-* @see app/Http/Controllers/AdminDashboardController.php:13
+* @see app/Http/Controllers/AdminDashboardController.php:15
 * @route '/admin'
 */
 index35f58437d9250c39f332f5e8e70440b7.url = (options?: RouteQueryOptions) => {
@@ -25,7 +25,7 @@ index35f58437d9250c39f332f5e8e70440b7.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\AdminDashboardController::index
-* @see app/Http/Controllers/AdminDashboardController.php:13
+* @see app/Http/Controllers/AdminDashboardController.php:15
 * @route '/admin'
 */
 index35f58437d9250c39f332f5e8e70440b7.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -35,7 +35,7 @@ index35f58437d9250c39f332f5e8e70440b7.get = (options?: RouteQueryOptions): Route
 
 /**
 * @see \App\Http\Controllers\AdminDashboardController::index
-* @see app/Http/Controllers/AdminDashboardController.php:13
+* @see app/Http/Controllers/AdminDashboardController.php:15
 * @route '/admin'
 */
 index35f58437d9250c39f332f5e8e70440b7.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -45,7 +45,7 @@ index35f58437d9250c39f332f5e8e70440b7.head = (options?: RouteQueryOptions): Rout
 
 /**
 * @see \App\Http\Controllers\AdminDashboardController::index
-* @see app/Http/Controllers/AdminDashboardController.php:13
+* @see app/Http/Controllers/AdminDashboardController.php:15
 * @route '/admin'
 */
 const index35f58437d9250c39f332f5e8e70440b7Form = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -55,7 +55,7 @@ const index35f58437d9250c39f332f5e8e70440b7Form = (options?: RouteQueryOptions):
 
 /**
 * @see \App\Http\Controllers\AdminDashboardController::index
-* @see app/Http/Controllers/AdminDashboardController.php:13
+* @see app/Http/Controllers/AdminDashboardController.php:15
 * @route '/admin'
 */
 index35f58437d9250c39f332f5e8e70440b7Form.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -65,7 +65,7 @@ index35f58437d9250c39f332f5e8e70440b7Form.get = (options?: RouteQueryOptions): R
 
 /**
 * @see \App\Http\Controllers\AdminDashboardController::index
-* @see app/Http/Controllers/AdminDashboardController.php:13
+* @see app/Http/Controllers/AdminDashboardController.php:15
 * @route '/admin'
 */
 index35f58437d9250c39f332f5e8e70440b7Form.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -81,7 +81,7 @@ index35f58437d9250c39f332f5e8e70440b7Form.head = (options?: RouteQueryOptions): 
 index35f58437d9250c39f332f5e8e70440b7.form = index35f58437d9250c39f332f5e8e70440b7Form
 /**
 * @see \App\Http\Controllers\AdminDashboardController::index
-* @see app/Http/Controllers/AdminDashboardController.php:13
+* @see app/Http/Controllers/AdminDashboardController.php:15
 * @route '/dashboard'
 */
 const index42a740574ecbfbac32f8cc353fc32db9 = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -96,7 +96,7 @@ index42a740574ecbfbac32f8cc353fc32db9.definition = {
 
 /**
 * @see \App\Http\Controllers\AdminDashboardController::index
-* @see app/Http/Controllers/AdminDashboardController.php:13
+* @see app/Http/Controllers/AdminDashboardController.php:15
 * @route '/dashboard'
 */
 index42a740574ecbfbac32f8cc353fc32db9.url = (options?: RouteQueryOptions) => {
@@ -105,7 +105,7 @@ index42a740574ecbfbac32f8cc353fc32db9.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\AdminDashboardController::index
-* @see app/Http/Controllers/AdminDashboardController.php:13
+* @see app/Http/Controllers/AdminDashboardController.php:15
 * @route '/dashboard'
 */
 index42a740574ecbfbac32f8cc353fc32db9.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -115,7 +115,7 @@ index42a740574ecbfbac32f8cc353fc32db9.get = (options?: RouteQueryOptions): Route
 
 /**
 * @see \App\Http\Controllers\AdminDashboardController::index
-* @see app/Http/Controllers/AdminDashboardController.php:13
+* @see app/Http/Controllers/AdminDashboardController.php:15
 * @route '/dashboard'
 */
 index42a740574ecbfbac32f8cc353fc32db9.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -125,7 +125,7 @@ index42a740574ecbfbac32f8cc353fc32db9.head = (options?: RouteQueryOptions): Rout
 
 /**
 * @see \App\Http\Controllers\AdminDashboardController::index
-* @see app/Http/Controllers/AdminDashboardController.php:13
+* @see app/Http/Controllers/AdminDashboardController.php:15
 * @route '/dashboard'
 */
 const index42a740574ecbfbac32f8cc353fc32db9Form = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -135,7 +135,7 @@ const index42a740574ecbfbac32f8cc353fc32db9Form = (options?: RouteQueryOptions):
 
 /**
 * @see \App\Http\Controllers\AdminDashboardController::index
-* @see app/Http/Controllers/AdminDashboardController.php:13
+* @see app/Http/Controllers/AdminDashboardController.php:15
 * @route '/dashboard'
 */
 index42a740574ecbfbac32f8cc353fc32db9Form.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -145,7 +145,7 @@ index42a740574ecbfbac32f8cc353fc32db9Form.get = (options?: RouteQueryOptions): R
 
 /**
 * @see \App\Http\Controllers\AdminDashboardController::index
-* @see app/Http/Controllers/AdminDashboardController.php:13
+* @see app/Http/Controllers/AdminDashboardController.php:15
 * @route '/dashboard'
 */
 index42a740574ecbfbac32f8cc353fc32db9Form.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -172,64 +172,8 @@ export const index = {
 }
 
 /**
-* @see \App\Http\Controllers\AdminDashboardController::saveSettings
-* @see app/Http/Controllers/AdminDashboardController.php:84
-* @route '/admin/settings'
-*/
-export const saveSettings = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
-    url: saveSettings.url(options),
-    method: 'post',
-})
-
-saveSettings.definition = {
-    methods: ["post"],
-    url: '/admin/settings',
-} satisfies RouteDefinition<["post"]>
-
-/**
-* @see \App\Http\Controllers\AdminDashboardController::saveSettings
-* @see app/Http/Controllers/AdminDashboardController.php:84
-* @route '/admin/settings'
-*/
-saveSettings.url = (options?: RouteQueryOptions) => {
-    return saveSettings.definition.url + queryParams(options)
-}
-
-/**
-* @see \App\Http\Controllers\AdminDashboardController::saveSettings
-* @see app/Http/Controllers/AdminDashboardController.php:84
-* @route '/admin/settings'
-*/
-saveSettings.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
-    url: saveSettings.url(options),
-    method: 'post',
-})
-
-/**
-* @see \App\Http\Controllers\AdminDashboardController::saveSettings
-* @see app/Http/Controllers/AdminDashboardController.php:84
-* @route '/admin/settings'
-*/
-const saveSettingsForm = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
-    action: saveSettings.url(options),
-    method: 'post',
-})
-
-/**
-* @see \App\Http\Controllers\AdminDashboardController::saveSettings
-* @see app/Http/Controllers/AdminDashboardController.php:84
-* @route '/admin/settings'
-*/
-saveSettingsForm.post = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
-    action: saveSettings.url(options),
-    method: 'post',
-})
-
-saveSettings.form = saveSettingsForm
-
-/**
 * @see \App\Http\Controllers\AdminDashboardController::exportMethod
-* @see app/Http/Controllers/AdminDashboardController.php:105
+* @see app/Http/Controllers/AdminDashboardController.php:140
 * @route '/admin/export'
 */
 export const exportMethod = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -244,7 +188,7 @@ exportMethod.definition = {
 
 /**
 * @see \App\Http\Controllers\AdminDashboardController::exportMethod
-* @see app/Http/Controllers/AdminDashboardController.php:105
+* @see app/Http/Controllers/AdminDashboardController.php:140
 * @route '/admin/export'
 */
 exportMethod.url = (options?: RouteQueryOptions) => {
@@ -253,7 +197,7 @@ exportMethod.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\AdminDashboardController::exportMethod
-* @see app/Http/Controllers/AdminDashboardController.php:105
+* @see app/Http/Controllers/AdminDashboardController.php:140
 * @route '/admin/export'
 */
 exportMethod.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -263,7 +207,7 @@ exportMethod.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 
 /**
 * @see \App\Http\Controllers\AdminDashboardController::exportMethod
-* @see app/Http/Controllers/AdminDashboardController.php:105
+* @see app/Http/Controllers/AdminDashboardController.php:140
 * @route '/admin/export'
 */
 exportMethod.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -273,7 +217,7 @@ exportMethod.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
 /**
 * @see \App\Http\Controllers\AdminDashboardController::exportMethod
-* @see app/Http/Controllers/AdminDashboardController.php:105
+* @see app/Http/Controllers/AdminDashboardController.php:140
 * @route '/admin/export'
 */
 const exportMethodForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -283,7 +227,7 @@ const exportMethodForm = (options?: RouteQueryOptions): RouteFormDefinition<'get
 
 /**
 * @see \App\Http\Controllers\AdminDashboardController::exportMethod
-* @see app/Http/Controllers/AdminDashboardController.php:105
+* @see app/Http/Controllers/AdminDashboardController.php:140
 * @route '/admin/export'
 */
 exportMethodForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -293,7 +237,7 @@ exportMethodForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'>
 
 /**
 * @see \App\Http\Controllers\AdminDashboardController::exportMethod
-* @see app/Http/Controllers/AdminDashboardController.php:105
+* @see app/Http/Controllers/AdminDashboardController.php:140
 * @route '/admin/export'
 */
 exportMethodForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -308,6 +252,143 @@ exportMethodForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'
 
 exportMethod.form = exportMethodForm
 
-const AdminDashboardController = { index, saveSettings, exportMethod, export: exportMethod }
+/**
+* @see \App\Http\Controllers\AdminDashboardController::settings
+* @see app/Http/Controllers/AdminDashboardController.php:64
+* @route '/admin/settings'
+*/
+export const settings = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: settings.url(options),
+    method: 'get',
+})
+
+settings.definition = {
+    methods: ["get","head"],
+    url: '/admin/settings',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+* @see \App\Http\Controllers\AdminDashboardController::settings
+* @see app/Http/Controllers/AdminDashboardController.php:64
+* @route '/admin/settings'
+*/
+settings.url = (options?: RouteQueryOptions) => {
+    return settings.definition.url + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\AdminDashboardController::settings
+* @see app/Http/Controllers/AdminDashboardController.php:64
+* @route '/admin/settings'
+*/
+settings.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: settings.url(options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\AdminDashboardController::settings
+* @see app/Http/Controllers/AdminDashboardController.php:64
+* @route '/admin/settings'
+*/
+settings.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: settings.url(options),
+    method: 'head',
+})
+
+/**
+* @see \App\Http\Controllers\AdminDashboardController::settings
+* @see app/Http/Controllers/AdminDashboardController.php:64
+* @route '/admin/settings'
+*/
+const settingsForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: settings.url(options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\AdminDashboardController::settings
+* @see app/Http/Controllers/AdminDashboardController.php:64
+* @route '/admin/settings'
+*/
+settingsForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: settings.url(options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\AdminDashboardController::settings
+* @see app/Http/Controllers/AdminDashboardController.php:64
+* @route '/admin/settings'
+*/
+settingsForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: settings.url({
+        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+            _method: 'HEAD',
+            ...(options?.query ?? options?.mergeQuery ?? {}),
+        }
+    }),
+    method: 'get',
+})
+
+settings.form = settingsForm
+
+/**
+* @see \App\Http\Controllers\AdminDashboardController::saveSettings
+* @see app/Http/Controllers/AdminDashboardController.php:87
+* @route '/admin/settings'
+*/
+export const saveSettings = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
+    url: saveSettings.url(options),
+    method: 'post',
+})
+
+saveSettings.definition = {
+    methods: ["post"],
+    url: '/admin/settings',
+} satisfies RouteDefinition<["post"]>
+
+/**
+* @see \App\Http\Controllers\AdminDashboardController::saveSettings
+* @see app/Http/Controllers/AdminDashboardController.php:87
+* @route '/admin/settings'
+*/
+saveSettings.url = (options?: RouteQueryOptions) => {
+    return saveSettings.definition.url + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\AdminDashboardController::saveSettings
+* @see app/Http/Controllers/AdminDashboardController.php:87
+* @route '/admin/settings'
+*/
+saveSettings.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
+    url: saveSettings.url(options),
+    method: 'post',
+})
+
+/**
+* @see \App\Http\Controllers\AdminDashboardController::saveSettings
+* @see app/Http/Controllers/AdminDashboardController.php:87
+* @route '/admin/settings'
+*/
+const saveSettingsForm = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+    action: saveSettings.url(options),
+    method: 'post',
+})
+
+/**
+* @see \App\Http\Controllers\AdminDashboardController::saveSettings
+* @see app/Http/Controllers/AdminDashboardController.php:87
+* @route '/admin/settings'
+*/
+saveSettingsForm.post = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+    action: saveSettings.url(options),
+    method: 'post',
+})
+
+saveSettings.form = saveSettingsForm
+
+const AdminDashboardController = { index, exportMethod, settings, saveSettings, export: exportMethod }
 
 export default AdminDashboardController

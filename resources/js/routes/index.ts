@@ -138,7 +138,7 @@ logout.form = logoutForm
 
 /**
 * @see \App\Http\Controllers\PublicPageController::home
-* @see app/Http/Controllers/PublicPageController.php:11
+* @see app/Http/Controllers/PublicPageController.php:12
 * @route '/'
 */
 export const home = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -153,7 +153,7 @@ home.definition = {
 
 /**
 * @see \App\Http\Controllers\PublicPageController::home
-* @see app/Http/Controllers/PublicPageController.php:11
+* @see app/Http/Controllers/PublicPageController.php:12
 * @route '/'
 */
 home.url = (options?: RouteQueryOptions) => {
@@ -162,7 +162,7 @@ home.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\PublicPageController::home
-* @see app/Http/Controllers/PublicPageController.php:11
+* @see app/Http/Controllers/PublicPageController.php:12
 * @route '/'
 */
 home.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -172,7 +172,7 @@ home.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 
 /**
 * @see \App\Http\Controllers\PublicPageController::home
-* @see app/Http/Controllers/PublicPageController.php:11
+* @see app/Http/Controllers/PublicPageController.php:12
 * @route '/'
 */
 home.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -182,7 +182,7 @@ home.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
 /**
 * @see \App\Http\Controllers\PublicPageController::home
-* @see app/Http/Controllers/PublicPageController.php:11
+* @see app/Http/Controllers/PublicPageController.php:12
 * @route '/'
 */
 const homeForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -192,7 +192,7 @@ const homeForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
 
 /**
 * @see \App\Http\Controllers\PublicPageController::home
-* @see app/Http/Controllers/PublicPageController.php:11
+* @see app/Http/Controllers/PublicPageController.php:12
 * @route '/'
 */
 homeForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -202,7 +202,7 @@ homeForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
 
 /**
 * @see \App\Http\Controllers\PublicPageController::home
-* @see app/Http/Controllers/PublicPageController.php:11
+* @see app/Http/Controllers/PublicPageController.php:12
 * @route '/'
 */
 homeForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -219,7 +219,7 @@ home.form = homeForm
 
 /**
 * @see \App\Http\Controllers\PublicPageController::about
-* @see app/Http/Controllers/PublicPageController.php:33
+* @see app/Http/Controllers/PublicPageController.php:34
 * @route '/about'
 */
 export const about = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -234,7 +234,7 @@ about.definition = {
 
 /**
 * @see \App\Http\Controllers\PublicPageController::about
-* @see app/Http/Controllers/PublicPageController.php:33
+* @see app/Http/Controllers/PublicPageController.php:34
 * @route '/about'
 */
 about.url = (options?: RouteQueryOptions) => {
@@ -243,7 +243,7 @@ about.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\PublicPageController::about
-* @see app/Http/Controllers/PublicPageController.php:33
+* @see app/Http/Controllers/PublicPageController.php:34
 * @route '/about'
 */
 about.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -253,7 +253,7 @@ about.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 
 /**
 * @see \App\Http\Controllers\PublicPageController::about
-* @see app/Http/Controllers/PublicPageController.php:33
+* @see app/Http/Controllers/PublicPageController.php:34
 * @route '/about'
 */
 about.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -263,7 +263,7 @@ about.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
 /**
 * @see \App\Http\Controllers\PublicPageController::about
-* @see app/Http/Controllers/PublicPageController.php:33
+* @see app/Http/Controllers/PublicPageController.php:34
 * @route '/about'
 */
 const aboutForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -273,7 +273,7 @@ const aboutForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => (
 
 /**
 * @see \App\Http\Controllers\PublicPageController::about
-* @see app/Http/Controllers/PublicPageController.php:33
+* @see app/Http/Controllers/PublicPageController.php:34
 * @route '/about'
 */
 aboutForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -283,7 +283,7 @@ aboutForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
 
 /**
 * @see \App\Http\Controllers\PublicPageController::about
-* @see app/Http/Controllers/PublicPageController.php:33
+* @see app/Http/Controllers/PublicPageController.php:34
 * @route '/about'
 */
 aboutForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -300,7 +300,7 @@ about.form = aboutForm
 
 /**
 * @see \App\Http\Controllers\PublicPageController::coverage
-* @see app/Http/Controllers/PublicPageController.php:47
+* @see app/Http/Controllers/PublicPageController.php:48
 * @route '/coverage'
 */
 export const coverage = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -315,7 +315,7 @@ coverage.definition = {
 
 /**
 * @see \App\Http\Controllers\PublicPageController::coverage
-* @see app/Http/Controllers/PublicPageController.php:47
+* @see app/Http/Controllers/PublicPageController.php:48
 * @route '/coverage'
 */
 coverage.url = (options?: RouteQueryOptions) => {
@@ -324,7 +324,7 @@ coverage.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\PublicPageController::coverage
-* @see app/Http/Controllers/PublicPageController.php:47
+* @see app/Http/Controllers/PublicPageController.php:48
 * @route '/coverage'
 */
 coverage.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -334,7 +334,7 @@ coverage.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 
 /**
 * @see \App\Http\Controllers\PublicPageController::coverage
-* @see app/Http/Controllers/PublicPageController.php:47
+* @see app/Http/Controllers/PublicPageController.php:48
 * @route '/coverage'
 */
 coverage.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -344,7 +344,7 @@ coverage.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
 /**
 * @see \App\Http\Controllers\PublicPageController::coverage
-* @see app/Http/Controllers/PublicPageController.php:47
+* @see app/Http/Controllers/PublicPageController.php:48
 * @route '/coverage'
 */
 const coverageForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -354,7 +354,7 @@ const coverageForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> =
 
 /**
 * @see \App\Http\Controllers\PublicPageController::coverage
-* @see app/Http/Controllers/PublicPageController.php:47
+* @see app/Http/Controllers/PublicPageController.php:48
 * @route '/coverage'
 */
 coverageForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -364,7 +364,7 @@ coverageForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => 
 
 /**
 * @see \App\Http\Controllers\PublicPageController::coverage
-* @see app/Http/Controllers/PublicPageController.php:47
+* @see app/Http/Controllers/PublicPageController.php:48
 * @route '/coverage'
 */
 coverageForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -381,7 +381,7 @@ coverage.form = coverageForm
 
 /**
 * @see \App\Http\Controllers\PublicPageController::register
-* @see app/Http/Controllers/PublicPageController.php:54
+* @see app/Http/Controllers/PublicPageController.php:55
 * @route '/register'
 */
 export const register = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -396,7 +396,7 @@ register.definition = {
 
 /**
 * @see \App\Http\Controllers\PublicPageController::register
-* @see app/Http/Controllers/PublicPageController.php:54
+* @see app/Http/Controllers/PublicPageController.php:55
 * @route '/register'
 */
 register.url = (options?: RouteQueryOptions) => {
@@ -405,7 +405,7 @@ register.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\PublicPageController::register
-* @see app/Http/Controllers/PublicPageController.php:54
+* @see app/Http/Controllers/PublicPageController.php:55
 * @route '/register'
 */
 register.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -415,7 +415,7 @@ register.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 
 /**
 * @see \App\Http\Controllers\PublicPageController::register
-* @see app/Http/Controllers/PublicPageController.php:54
+* @see app/Http/Controllers/PublicPageController.php:55
 * @route '/register'
 */
 register.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -425,7 +425,7 @@ register.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
 /**
 * @see \App\Http\Controllers\PublicPageController::register
-* @see app/Http/Controllers/PublicPageController.php:54
+* @see app/Http/Controllers/PublicPageController.php:55
 * @route '/register'
 */
 const registerForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -435,7 +435,7 @@ const registerForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> =
 
 /**
 * @see \App\Http\Controllers\PublicPageController::register
-* @see app/Http/Controllers/PublicPageController.php:54
+* @see app/Http/Controllers/PublicPageController.php:55
 * @route '/register'
 */
 registerForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -445,7 +445,7 @@ registerForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => 
 
 /**
 * @see \App\Http\Controllers\PublicPageController::register
-* @see app/Http/Controllers/PublicPageController.php:54
+* @see app/Http/Controllers/PublicPageController.php:55
 * @route '/register'
 */
 registerForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -462,7 +462,7 @@ register.form = registerForm
 
 /**
 * @see \App\Http\Controllers\PublicPageController::contact
-* @see app/Http/Controllers/PublicPageController.php:68
+* @see app/Http/Controllers/PublicPageController.php:70
 * @route '/contact'
 */
 export const contact = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -477,7 +477,7 @@ contact.definition = {
 
 /**
 * @see \App\Http\Controllers\PublicPageController::contact
-* @see app/Http/Controllers/PublicPageController.php:68
+* @see app/Http/Controllers/PublicPageController.php:70
 * @route '/contact'
 */
 contact.url = (options?: RouteQueryOptions) => {
@@ -486,7 +486,7 @@ contact.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\PublicPageController::contact
-* @see app/Http/Controllers/PublicPageController.php:68
+* @see app/Http/Controllers/PublicPageController.php:70
 * @route '/contact'
 */
 contact.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -496,7 +496,7 @@ contact.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 
 /**
 * @see \App\Http\Controllers\PublicPageController::contact
-* @see app/Http/Controllers/PublicPageController.php:68
+* @see app/Http/Controllers/PublicPageController.php:70
 * @route '/contact'
 */
 contact.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -506,7 +506,7 @@ contact.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
 /**
 * @see \App\Http\Controllers\PublicPageController::contact
-* @see app/Http/Controllers/PublicPageController.php:68
+* @see app/Http/Controllers/PublicPageController.php:70
 * @route '/contact'
 */
 const contactForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -516,7 +516,7 @@ const contactForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> =>
 
 /**
 * @see \App\Http\Controllers\PublicPageController::contact
-* @see app/Http/Controllers/PublicPageController.php:68
+* @see app/Http/Controllers/PublicPageController.php:70
 * @route '/contact'
 */
 contactForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -526,7 +526,7 @@ contactForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => (
 
 /**
 * @see \App\Http\Controllers\PublicPageController::contact
-* @see app/Http/Controllers/PublicPageController.php:68
+* @see app/Http/Controllers/PublicPageController.php:70
 * @route '/contact'
 */
 contactForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -543,7 +543,7 @@ contact.form = contactForm
 
 /**
 * @see \App\Http\Controllers\PublicPageController::privacy
-* @see app/Http/Controllers/PublicPageController.php:61
+* @see app/Http/Controllers/PublicPageController.php:63
 * @route '/privacy'
 */
 export const privacy = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -558,7 +558,7 @@ privacy.definition = {
 
 /**
 * @see \App\Http\Controllers\PublicPageController::privacy
-* @see app/Http/Controllers/PublicPageController.php:61
+* @see app/Http/Controllers/PublicPageController.php:63
 * @route '/privacy'
 */
 privacy.url = (options?: RouteQueryOptions) => {
@@ -567,7 +567,7 @@ privacy.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\PublicPageController::privacy
-* @see app/Http/Controllers/PublicPageController.php:61
+* @see app/Http/Controllers/PublicPageController.php:63
 * @route '/privacy'
 */
 privacy.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -577,7 +577,7 @@ privacy.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 
 /**
 * @see \App\Http\Controllers\PublicPageController::privacy
-* @see app/Http/Controllers/PublicPageController.php:61
+* @see app/Http/Controllers/PublicPageController.php:63
 * @route '/privacy'
 */
 privacy.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -587,7 +587,7 @@ privacy.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
 /**
 * @see \App\Http\Controllers\PublicPageController::privacy
-* @see app/Http/Controllers/PublicPageController.php:61
+* @see app/Http/Controllers/PublicPageController.php:63
 * @route '/privacy'
 */
 const privacyForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -597,7 +597,7 @@ const privacyForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> =>
 
 /**
 * @see \App\Http\Controllers\PublicPageController::privacy
-* @see app/Http/Controllers/PublicPageController.php:61
+* @see app/Http/Controllers/PublicPageController.php:63
 * @route '/privacy'
 */
 privacyForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -607,7 +607,7 @@ privacyForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => (
 
 /**
 * @see \App\Http\Controllers\PublicPageController::privacy
-* @see app/Http/Controllers/PublicPageController.php:61
+* @see app/Http/Controllers/PublicPageController.php:63
 * @route '/privacy'
 */
 privacyForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -624,7 +624,7 @@ privacy.form = privacyForm
 
 /**
 * @see \App\Http\Controllers\AdminDashboardController::dashboard
-* @see app/Http/Controllers/AdminDashboardController.php:13
+* @see app/Http/Controllers/AdminDashboardController.php:15
 * @route '/dashboard'
 */
 export const dashboard = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -639,7 +639,7 @@ dashboard.definition = {
 
 /**
 * @see \App\Http\Controllers\AdminDashboardController::dashboard
-* @see app/Http/Controllers/AdminDashboardController.php:13
+* @see app/Http/Controllers/AdminDashboardController.php:15
 * @route '/dashboard'
 */
 dashboard.url = (options?: RouteQueryOptions) => {
@@ -648,7 +648,7 @@ dashboard.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\AdminDashboardController::dashboard
-* @see app/Http/Controllers/AdminDashboardController.php:13
+* @see app/Http/Controllers/AdminDashboardController.php:15
 * @route '/dashboard'
 */
 dashboard.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -658,7 +658,7 @@ dashboard.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 
 /**
 * @see \App\Http\Controllers\AdminDashboardController::dashboard
-* @see app/Http/Controllers/AdminDashboardController.php:13
+* @see app/Http/Controllers/AdminDashboardController.php:15
 * @route '/dashboard'
 */
 dashboard.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -668,7 +668,7 @@ dashboard.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
 /**
 * @see \App\Http\Controllers\AdminDashboardController::dashboard
-* @see app/Http/Controllers/AdminDashboardController.php:13
+* @see app/Http/Controllers/AdminDashboardController.php:15
 * @route '/dashboard'
 */
 const dashboardForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -678,7 +678,7 @@ const dashboardForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> 
 
 /**
 * @see \App\Http\Controllers\AdminDashboardController::dashboard
-* @see app/Http/Controllers/AdminDashboardController.php:13
+* @see app/Http/Controllers/AdminDashboardController.php:15
 * @route '/dashboard'
 */
 dashboardForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -688,7 +688,7 @@ dashboardForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> =>
 
 /**
 * @see \App\Http\Controllers\AdminDashboardController::dashboard
-* @see app/Http/Controllers/AdminDashboardController.php:13
+* @see app/Http/Controllers/AdminDashboardController.php:15
 * @route '/dashboard'
 */
 dashboardForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({

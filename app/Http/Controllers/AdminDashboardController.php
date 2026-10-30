@@ -61,23 +61,78 @@ class AdminDashboardController extends Controller
         ]);
     }
 
+    public function settings()
+    {
+        return Inertia::render('admin/settings', [
+            'settings' => [
+                'organization_name' => SiteSetting::value('organization_name', config('ancyn.organization_name')),
+                'about_us' => SiteSetting::value('about_us', config('ancyn.default_about')),
+                'vision' => SiteSetting::value('vision', config('ancyn.default_vision')),
+                'mission' => SiteSetting::value('mission', config('ancyn.default_mission')),
+                'core_values' => implode("\n", $this->settingList('core_values', config('ancyn.default_core_values'))),
+                'objectives' => implode("\n", $this->settingList('objectives', config('ancyn.default_objectives'))),
+                'programs' => implode("\n", $this->settingList('programs', config('ancyn.default_programs'))),
+                'privacy_notice' => SiteSetting::value('privacy_notice', config('ancyn.default_privacy')),
+                'contact_email' => SiteSetting::value('contact_email', config('ancyn.default_contact.email')),
+                'contact_phone' => SiteSetting::value('contact_phone', config('ancyn.default_contact.phone')),
+                'contact_address' => SiteSetting::value('contact_address', config('ancyn.default_contact.address')),
+                'facebook_url' => SiteSetting::value('facebook_url', config('ancyn.default_contact.facebook')),
+                'x_url' => SiteSetting::value('x_url', config('ancyn.default_contact.x')),
+                'instagram_url' => SiteSetting::value('instagram_url', config('ancyn.default_contact.instagram')),
+                'linkedin_url' => SiteSetting::value('linkedin_url', config('ancyn.default_contact.linkedin')),
+            ],
+        ]);
+    }
+
     public function saveSettings(Request $request)
     {
         $payload = $request->validate([
             'organization_name' => ['required', 'string', 'max:255'],
-            'about_us' => ['required', 'string'],
-            'vision' => ['required', 'string'],
-            'mission' => ['required', 'string'],
-            'contact_email' => ['required', 'email'],
-            'contact_phone' => ['required', 'string'],
-            'contact_address' => ['required', 'string'],
+            'about_us' => ['required', 'string', 'max:5000'],
+            'vision' => ['required', 'string', 'max:2000'],
+            'mission' => ['required', 'string', 'max:2000'],
+            'core_values' => ['required', 'string', 'max:5000'],
+            'objectives' => ['required', 'string', 'max:10000'],
+            'programs' => ['required', 'string', 'max:10000'],
+            'privacy_notice' => ['required', 'string', 'max:10000'],
+            'contact_email' => ['nullable', 'email', 'max:255'],
+            'contact_phone' => ['nullable', 'string', 'max:60'],
+            'contact_address' => ['nullable', 'string', 'max:500'],
+            'facebook_url' => ['nullable', 'url', 'max:255'],
+            'x_url' => ['nullable', 'url', 'max:255'],
+            'instagram_url' => ['nullable', 'url', 'max:255'],
+            'linkedin_url' => ['nullable', 'url', 'max:255'],
         ]);
 
-        foreach ($payload as $key => $value) {
-            SiteSetting::query()->updateOrCreate(['key' => $key], ['value' => $value]);
+        $lists = ['core_values', 'objectives', 'programs'];
+        foreach ($lists as $key) {
+            $payload[$key] = json_encode(array_values(array_filter(array_map('trim', preg_split('/\\R/', $payload[$key])))));
         }
 
-        AuditLog::record('site_settings_updated', $payload);
+        $settings = [
+            'organization_name' => 'organization_name',
+            'about_us' => 'about_us',
+            'vision' => 'vision',
+            'mission' => 'mission',
+            'core_values' => 'core_values',
+            'objectives' => 'objectives',
+            'programs' => 'programs',
+            'privacy_notice' => 'privacy_notice',
+            'contact_email' => 'contact_email',
+            'contact_phone' => 'contact_phone',
+            'contact_address' => 'contact_address',
+            'facebook_url' => 'facebook_url',
+            'x_url' => 'x_url',
+            'instagram_url' => 'instagram_url',
+            'linkedin_url' => 'linkedin_url',
+        ];
+
+        foreach ($settings as $key => $settingKey) {
+            $value = $payload[$key];
+            SiteSetting::query()->updateOrCreate(['key' => $settingKey], ['value' => $value]);
+        }
+
+        AuditLog::record('site_settings_updated', ['updated_keys' => array_keys($settings)]);
 
         return back()->with('success', 'The ANCYN public website settings were updated.');
     }
@@ -180,5 +235,14 @@ class AdminDashboardController extends Controller
         }
 
         return $query;
+    }
+
+    /** @param array<int, string> $default */
+    private function settingList(string $key, array $default): array
+    {
+        $value = SiteSetting::value($key, json_encode($default));
+        $list = json_decode((string) $value, true);
+
+        return is_array($list) ? array_values(array_filter($list, 'is_string')) : $default;
     }
 }

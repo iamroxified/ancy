@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ContactMessage;
 use App\Models\SiteSetting;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -85,12 +86,20 @@ class PublicPageController extends Controller
     {
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email'],
+            'email' => ['required', 'email', 'max:255'],
             'subject' => ['required', 'string', 'max:255'],
             'message' => ['required', 'string', 'max:2000'],
         ]);
 
-        return back()->with('success', 'Your message has been received. The ANCYN team will respond using the contact details provided.');
+        ContactMessage::query()->create([
+            'name' => trim($validated['name']),
+            'email' => strtolower($validated['email']),
+            'subject' => trim($validated['subject']),
+            'message' => trim($validated['message']),
+            'status' => 'new',
+        ]);
+
+        return back()->with('success', 'Your message has been received. The ANCYN team will review it and respond using the contact details provided.');
     }
 
     private function decodeJsonList(string $key, mixed $default): array

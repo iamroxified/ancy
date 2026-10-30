@@ -2,6 +2,8 @@
 
 use App\Models\User;
 use App\Models\Member;
+use App\Models\ContactMessage;
+use App\Models\SiteSetting;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Hash;
@@ -169,4 +171,56 @@ test('first administrator setup prompts for a private strong password', function
     $user = User::query()->where('email', 'owner@example.org')->firstOrFail();
     expect(Hash::check($password, $user->password))->toBeTrue()
         ->and($user->role)->toBe('super_admin');
+});
+
+test('contact messages are saved and administrators can manage their status', function () {
+    $this->post('/contact', [
+        'name' => 'Ada Okafor',
+        'email' => 'ADA@example.org',
+        'subject' => 'Membership question',
+        'message' => 'Please tell me how to update my application.',
+    ])->assertRedirect();
+
+    $message = ContactMessage::query()->firstOrFail();
+    expect($message->email)->toBe('ada@example.org')
+        ->and($message->status)->toBe('new');
+
+    $admin = User::factory()->create(['role' => 'records_admin']);
+    $this->actingAs($admin)
+        ->get('/admin/messages')
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page->component('admin/messages')->has('messages.data', 1));
+
+    $this->post("/admin/messages/{$message->id}/status", ['status' => 'resolved'])
+        ->assertSessionHasNoErrors();
+    expect($message->fresh()->status)->toBe('resolved');
+});
+
+test('only super admins can access and update public website settings', function () {
+    $recordsAdmin = User::factory()->create(['role' => 'records_admin']);
+    $this->actingAs($recordsAdmin)->get('/admin/settings')->assertForbidden();
+
+    $superAdmin = User::factory()->create(['role' => 'super_admin']);
+    $this->actingAs($superAdmin)->get('/admin/settings')->assertOk();
+
+    $this->post('/admin/settings', [
+        'organization_name' => 'ANCYN',
+        'about_us' => 'Updated organization background.',
+        'vision' => 'A shared vision.',
+        'mission' => 'A shared mission.',
+        'core_values' => "Unity\nIntegrity",
+        'objectives' => "Youth empowerment\nPeacebuilding",
+        'programs' => "Mentorship\nDigital skills",
+        'privacy_notice' => 'Updated privacy information.',
+        'contact_email' => '',
+        'contact_phone' => '',
+        'contact_address' => '',
+        'facebook_url' => '',
+        'x_url' => '',
+        'instagram_url' => '',
+        'linkedin_url' => '',
+    ])->assertSessionHasNoErrors();
+
+    expect(SiteSetting::value('about_us'))->toBe('Updated organization background.')
+        ->and(json_decode(SiteSetting::value('core_values'), true))->toBe(['Unity', 'Integrity']);
 });

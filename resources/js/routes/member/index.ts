@@ -1,7 +1,7 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../wayfinder'
 /**
 * @see \App\Http\Controllers\MemberRegistrationController::register
-* @see app/Http/Controllers/MemberRegistrationController.php:21
+* @see app/Http/Controllers/MemberRegistrationController.php:24
 * @route '/register/member'
 */
 export const register = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -16,7 +16,7 @@ register.definition = {
 
 /**
 * @see \App\Http\Controllers\MemberRegistrationController::register
-* @see app/Http/Controllers/MemberRegistrationController.php:21
+* @see app/Http/Controllers/MemberRegistrationController.php:24
 * @route '/register/member'
 */
 register.url = (options?: RouteQueryOptions) => {
@@ -25,7 +25,7 @@ register.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\MemberRegistrationController::register
-* @see app/Http/Controllers/MemberRegistrationController.php:21
+* @see app/Http/Controllers/MemberRegistrationController.php:24
 * @route '/register/member'
 */
 register.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -35,7 +35,7 @@ register.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
 
 /**
 * @see \App\Http\Controllers\MemberRegistrationController::register
-* @see app/Http/Controllers/MemberRegistrationController.php:21
+* @see app/Http/Controllers/MemberRegistrationController.php:24
 * @route '/register/member'
 */
 const registerForm = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -45,7 +45,7 @@ const registerForm = (options?: RouteQueryOptions): RouteFormDefinition<'post'> 
 
 /**
 * @see \App\Http\Controllers\MemberRegistrationController::register
-* @see app/Http/Controllers/MemberRegistrationController.php:21
+* @see app/Http/Controllers/MemberRegistrationController.php:24
 * @route '/register/member'
 */
 registerForm.post = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({

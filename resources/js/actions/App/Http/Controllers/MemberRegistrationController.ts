@@ -1,7 +1,7 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\MemberRegistrationController::store
-* @see app/Http/Controllers/MemberRegistrationController.php:21
+* @see app/Http/Controllers/MemberRegistrationController.php:24
 * @route '/register/member'
 */
 export const store = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -16,7 +16,7 @@ store.definition = {
 
 /**
 * @see \App\Http\Controllers\MemberRegistrationController::store
-* @see app/Http/Controllers/MemberRegistrationController.php:21
+* @see app/Http/Controllers/MemberRegistrationController.php:24
 * @route '/register/member'
 */
 store.url = (options?: RouteQueryOptions) => {
@@ -25,7 +25,7 @@ store.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\MemberRegistrationController::store
-* @see app/Http/Controllers/MemberRegistrationController.php:21
+* @see app/Http/Controllers/MemberRegistrationController.php:24
 * @route '/register/member'
 */
 store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -35,7 +35,7 @@ store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
 
 /**
 * @see \App\Http\Controllers\MemberRegistrationController::store
-* @see app/Http/Controllers/MemberRegistrationController.php:21
+* @see app/Http/Controllers/MemberRegistrationController.php:24
 * @route '/register/member'
 */
 const storeForm = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -45,7 +45,7 @@ const storeForm = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => 
 
 /**
 * @see \App\Http\Controllers\MemberRegistrationController::store
-* @see app/Http/Controllers/MemberRegistrationController.php:21
+* @see app/Http/Controllers/MemberRegistrationController.php:24
 * @route '/register/member'
 */
 storeForm.post = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -57,7 +57,7 @@ store.form = storeForm
 
 /**
 * @see \App\Http\Controllers\MemberRegistrationController::confirmation
-* @see app/Http/Controllers/MemberRegistrationController.php:67
+* @see app/Http/Controllers/MemberRegistrationController.php:83
 * @route '/register/confirmation'
 */
 export const confirmation = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -72,7 +72,7 @@ confirmation.definition = {
 
 /**
 * @see \App\Http\Controllers\MemberRegistrationController::confirmation
-* @see app/Http/Controllers/MemberRegistrationController.php:67
+* @see app/Http/Controllers/MemberRegistrationController.php:83
 * @route '/register/confirmation'
 */
 confirmation.url = (options?: RouteQueryOptions) => {
@@ -81,7 +81,7 @@ confirmation.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\MemberRegistrationController::confirmation
-* @see app/Http/Controllers/MemberRegistrationController.php:67
+* @see app/Http/Controllers/MemberRegistrationController.php:83
 * @route '/register/confirmation'
 */
 confirmation.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -91,7 +91,7 @@ confirmation.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 
 /**
 * @see \App\Http\Controllers\MemberRegistrationController::confirmation
-* @see app/Http/Controllers/MemberRegistrationController.php:67
+* @see app/Http/Controllers/MemberRegistrationController.php:83
 * @route '/register/confirmation'
 */
 confirmation.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -101,7 +101,7 @@ confirmation.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
 /**
 * @see \App\Http\Controllers\MemberRegistrationController::confirmation
-* @see app/Http/Controllers/MemberRegistrationController.php:67
+* @see app/Http/Controllers/MemberRegistrationController.php:83
 * @route '/register/confirmation'
 */
 const confirmationForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -111,7 +111,7 @@ const confirmationForm = (options?: RouteQueryOptions): RouteFormDefinition<'get
 
 /**
 * @see \App\Http\Controllers\MemberRegistrationController::confirmation
-* @see app/Http/Controllers/MemberRegistrationController.php:67
+* @see app/Http/Controllers/MemberRegistrationController.php:83
 * @route '/register/confirmation'
 */
 confirmationForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -121,7 +121,7 @@ confirmationForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'>
 
 /**
 * @see \App\Http\Controllers\MemberRegistrationController::confirmation
-* @see app/Http/Controllers/MemberRegistrationController.php:67
+* @see app/Http/Controllers/MemberRegistrationController.php:83
 * @route '/register/confirmation'
 */
 confirmationForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
