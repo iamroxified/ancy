@@ -1,8 +1,10 @@
 <?php
 
 use App\Models\User;
+use App\Models\Member;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Hash;
+use Inertia\Testing\AssertableInertia as Assert;
 
 uses(WithFaker::class);
 
@@ -102,4 +104,44 @@ test('admin users can sign in to the dashboard', function () {
 
     $response->assertRedirect('/admin');
     $this->assertAuthenticated();
+});
+
+test('admin dashboard filters by location and reports real totals', function () {
+    $admin = User::factory()->create(['role' => 'records_admin']);
+    $this->actingAs($admin);
+
+    Member::query()->create([
+        'full_name' => 'Ada Okafor',
+        'vin' => 'AB12345681',
+        'phone_number' => '+2348031234567',
+        'state' => 'Kogi',
+        'lga' => 'Lokoja',
+        'ward' => 'Kabawa',
+        'polling_unit' => 'PU 12',
+        'privacy_consent_at' => now(),
+        'status' => 'pending',
+    ]);
+    Member::query()->create([
+        'full_name' => 'Bola Bello',
+        'vin' => 'AB12345682',
+        'phone_number' => '+2348031234568',
+        'state' => 'Benue',
+        'lga' => 'Makurdi',
+        'ward' => 'Modern Market',
+        'polling_unit' => 'PU 03',
+        'privacy_consent_at' => now(),
+        'status' => 'approved',
+    ]);
+
+    $this->get('/admin?state=Kogi&lga=Lokoja&status=pending')
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('admin/dashboard')
+            ->where('stats.total', 2)
+            ->where('stats.pending', 1)
+            ->has('stats.by_state', 2)
+            ->has('stats.by_lga', 2)
+            ->has('members.data', 1)
+            ->where('members.data.0.full_name', 'Ada Okafor')
+        );
 });
