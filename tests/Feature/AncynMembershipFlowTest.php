@@ -3,6 +3,7 @@
 use App\Models\User;
 use App\Models\Member;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Testing\AssertableInertia as Assert;
 
@@ -144,4 +145,28 @@ test('admin dashboard filters by location and reports real totals', function () 
             ->has('members.data', 1)
             ->where('members.data.0.full_name', 'Ada Okafor')
         );
+});
+
+test('database seeding does not create a default administrator', function () {
+    Artisan::call('db:seed');
+
+    expect(User::query()->count())->toBe(0);
+});
+
+test('first administrator setup prompts for a private strong password', function () {
+    $password = 'SecureAdmin!2026-ANCYN';
+
+    $this->artisan('ancy:make-admin', [
+        'email' => 'owner@example.org',
+        'name' => 'ANCYN Owner',
+    ])
+        ->expectsQuestion('Admin password', $password)
+        ->expectsQuestion('Confirm admin password', $password)
+        ->expectsOutput('Admin account ready.')
+        ->doesntExpectOutput($password)
+        ->assertExitCode(0);
+
+    $user = User::query()->where('email', 'owner@example.org')->firstOrFail();
+    expect(Hash::check($password, $user->password))->toBeTrue()
+        ->and($user->role)->toBe('super_admin');
 });
