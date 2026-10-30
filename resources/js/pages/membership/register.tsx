@@ -1,10 +1,12 @@
 import { Head, usePage } from '@inertiajs/react';
 import { router } from '@inertiajs/core';
 import { FormEvent, useState } from 'react';
+import { Menu, X } from 'lucide-react';
 
 export default function MembershipRegisterPage() {
     const { states, lgas, errors } = usePage().props as any;
     const [processing, setProcessing] = useState(false);
+    const [menuOpen, setMenuOpen] = useState(false);
     const [form, setForm] = useState({
         full_name: '',
         vin: '',
@@ -33,12 +35,15 @@ export default function MembershipRegisterPage() {
             <Head title="Membership Registration" />
             <div className="min-h-screen bg-slate-50 text-slate-900">
                 <header className="border-b border-slate-200 bg-[#0b1d36] text-white">
-                    <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+                    <div className="relative mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
                         <a href="/" className="flex items-center gap-3 font-semibold tracking-wide">
                             <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#d4af37] text-sm font-bold text-[#0b1d36]">ANCYN</span>
                             <span>ANCYN</span>
                         </a>
-                        <nav className="hidden items-center gap-6 text-sm md:flex">
+                        <button type="button" aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'} aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)} className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-white/20 md:hidden">
+                            {menuOpen ? <X size={20} /> : <Menu size={20} />}
+                        </button>
+                        <nav className={`${menuOpen ? 'flex' : 'hidden'} absolute left-0 right-0 top-full z-10 flex-col gap-1 border-t border-white/10 bg-[#0b1d36] px-6 py-3 text-sm md:static md:flex md:flex-row md:items-center md:gap-6 md:border-0 md:bg-transparent md:p-0`}>
                             <a href="/about" className="text-slate-200 hover:text-white">About</a>
                             <a href="/coverage" className="text-slate-200 hover:text-white">Coverage</a>
                             <a href="/contact" className="text-slate-200 hover:text-white">Contact</a>
