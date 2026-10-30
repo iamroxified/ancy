@@ -51,7 +51,7 @@ Records Administrators can manage membership and contact messages. Only Super Ad
 
 ## Registration and Location Data
 
-VIN and phone values are encrypted with Laravel's application key. Keyed hashes support duplicate checks and exact-value search without plaintext lookup columns. Member lists mask both values. CSV exports omit VIN and phone. State/LGA/ward/polling-unit choices are validated against the normalized location catalog on the server. The catalog is loaded from the supplied `states-and-lgas-and-wards-and-polling-units.json` dataset.
+VIN and phone values are encrypted with Laravel's application key. Keyed hashes support duplicate checks and exact-value search without plaintext lookup columns. Member lists mask both values. Authorized admin CSV exports include the full VIN and omit phone; exports are recorded in the audit log as containing sensitive fields. State/LGA/ward/polling-unit choices are validated against the normalized location catalog on the server. The catalog is loaded from the supplied `states-and-lgas-and-wards-and-polling-units.json` dataset.
 
 The seven covered administrative areas are selected from the supplied dataset during seeding. Eighteen exact duplicate polling-unit labels within a ward are represented once by the database's natural-key constraint. Verify the dataset against current official sources before production use. Do not claim INEC verification.
 

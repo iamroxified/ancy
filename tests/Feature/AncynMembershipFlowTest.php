@@ -151,6 +151,18 @@ test('admin users can sign in to the dashboard', function () {
     $this->assertAuthenticated();
 });
 
+test('admin dashboard sends empty filters as an object', function () {
+    $admin = User::factory()->create(['role' => 'records_admin']);
+    $this->actingAs($admin);
+
+    $response = $this->get('/admin');
+
+    $response->assertOk()
+        ->assertInertia(fn (Assert $page) => $page->component('admin/dashboard'));
+
+    expect($response->viewData('page')['props']['filters'])->toBeObject();
+});
+
 test('admin dashboard filters by location and reports real totals', function () {
     $admin = User::factory()->create(['role' => 'records_admin']);
     $this->actingAs($admin);
@@ -313,7 +325,7 @@ test('admins can correct member details and the audit log omits sensitive values
         ->and(json_encode($auditLog->details))->not->toContain('AB12345684', '+2348031234568');
 });
 
-test('CSV export excludes identity values and audit metadata excludes search text', function () {
+test('CSV export includes VIN and audit metadata excludes sensitive values', function () {
     $admin = User::factory()->create(['role' => 'records_admin']);
     Member::query()->create([
         'full_name' => '=HYPERLINK("https://example.invalid")',
@@ -331,10 +343,12 @@ test('CSV export excludes identity values and audit metadata excludes search tex
     $response->assertOk();
     $csv = $response->streamedContent();
     expect($csv)->toContain("'=HYPERLINK")
-        ->and($csv)->not->toContain('AB12345687', '+2348031234567');
+        ->and($csv)->toContain('VIN', 'AB12345687')
+        ->and($csv)->not->toContain('+2348031234567');
 
     $auditLog = AuditLog::query()->where('action', 'member_exported')->firstOrFail();
-    expect(json_encode($auditLog->details))->not->toContain('AB12345687');
+    expect($auditLog->details['includes_sensitive_fields'])->toBeTrue()
+        ->and(json_encode($auditLog->details))->not->toContain('AB12345687');
 });
 
 test('admin login is rate limited and public responses include security headers', function () {

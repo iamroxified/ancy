@@ -51,9 +51,7 @@ class AdminDashboardController extends Controller
                 'created_at' => $member->created_at?->format('Y-m-d H:i:s'),
                 'status' => $member->status,
             ]),
-            'filters' => [
-                ...$filters,
-            ],
+            'filters' => (object) $filters,
             'states' => config('ancyn.states'),
             'lgas' => config('ancyn.lgas'),
             'statuses' => ['pending', 'approved', 'rejected', 'inactive'],
@@ -153,7 +151,7 @@ class AdminDashboardController extends Controller
         AuditLog::record('member_exported', [
             'filters' => array_filter($auditFilters, fn ($value) => $value !== null && $value !== ''),
             'search_performed' => $searchPerformed,
-            'includes_sensitive_fields' => false,
+            'includes_sensitive_fields' => true,
         ]);
 
         $filename = 'ancyn_members_'.now()->format('Ymd_His').'.csv';
@@ -163,12 +161,13 @@ class AdminDashboardController extends Controller
 
         return response()->streamDownload(function () use ($query, $sort, $direction) {
             $handle = fopen('php://output', 'wb');
-            fputcsv($handle, ['Membership Number', 'Full Name', 'State', 'LGA', 'Ward', 'Polling Unit', 'Status', 'Created At']);
+            fputcsv($handle, ['Membership Number', 'Full Name', 'VIN', 'State', 'LGA', 'Ward', 'Polling Unit', 'Status', 'Created At']);
 
             foreach ($query->orderBy($sort, $direction)->cursor() as $member) {
                 fputcsv($handle, [
                     $this->csvSafe($member->membership_number),
                     $this->csvSafe($member->full_name),
+                    $this->csvSafe((string) $member->vin),
                     $this->csvSafe($member->state),
                     $this->csvSafe($member->lga),
                     $this->csvSafe($member->ward),
