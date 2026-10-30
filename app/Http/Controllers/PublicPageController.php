@@ -55,6 +55,7 @@ class PublicPageController extends Controller
     {
         return Inertia::render('membership/register', [
             'states' => config('ancyn.states'),
+            'lgas' => config('ancyn.lgas'),
         ]);
     }
 

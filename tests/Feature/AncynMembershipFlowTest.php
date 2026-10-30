@@ -51,6 +51,41 @@ test('duplicate VIN registrations are rejected', function () {
     $response->assertSessionHasErrors('vin');
 });
 
+test('a state cannot be paired with an LGA from another state', function () {
+    $response = $this->post('/register/member', [
+        'full_name' => 'Ada Okafor',
+        'vin' => 'AB12345679',
+        'phone_number' => '08031234567',
+        'state' => 'Kogi',
+        'lga' => 'Makurdi',
+        'ward' => 'Test Ward',
+        'polling_unit' => 'PU 12',
+        'privacy_consent' => '1',
+    ]);
+
+    $response->assertSessionHasErrors('lga');
+    $this->assertDatabaseCount('members', 0);
+});
+
+test('member identity values are encrypted and phone lookup handles local format', function () {
+    $this->post('/register/member', [
+        'full_name' => 'Ada Okafor',
+        'vin' => 'AB12345680',
+        'phone_number' => '08031234567',
+        'state' => 'Kogi',
+        'lga' => 'Lokoja',
+        'ward' => 'Kabawa',
+        'polling_unit' => 'PU 12',
+        'privacy_consent' => '1',
+    ]);
+
+    $member = \App\Models\Member::query()->firstOrFail();
+
+    expect($member->getRawOriginal('vin'))->not->toBe('AB12345680')
+        ->and($member->getRawOriginal('phone_number'))->not->toBe('+2348031234567')
+        ->and(\App\Models\Member::hashPhone('08031234567'))->toBe(\App\Models\Member::hashPhone('+2348031234567'));
+});
+
 test('admin users can sign in to the dashboard', function () {
     User::factory()->create([
         'name' => 'Super Admin',

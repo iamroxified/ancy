@@ -3,7 +3,8 @@ import { router } from '@inertiajs/core';
 import { FormEvent, useState } from 'react';
 
 export default function MembershipRegisterPage() {
-    const { states, errors } = usePage().props as any;
+    const { states, lgas, errors } = usePage().props as any;
+    const [processing, setProcessing] = useState(false);
     const [form, setForm] = useState({
         full_name: '',
         vin: '',
@@ -22,7 +23,8 @@ export default function MembershipRegisterPage() {
             privacy_consent: form.privacy_consent ? '1' : '0',
         }, {
             preserveScroll: true,
-            onError: () => {},
+            onStart: () => setProcessing(true),
+            onFinish: () => setProcessing(false),
         });
     };
 
@@ -71,7 +73,7 @@ export default function MembershipRegisterPage() {
                             </div>
                             <div>
                                 <label className="mb-2 block text-sm font-medium text-slate-700">State</label>
-                                <select value={form.state} onChange={(e) => setForm({ ...form, state: e.target.value })} className="w-full rounded-xl border border-slate-200 px-4 py-3" required>
+                                <select value={form.state} onChange={(e) => setForm({ ...form, state: e.target.value, lga: '' })} className="w-full rounded-xl border border-slate-200 px-4 py-3" required>
                                     <option value="">Select state</option>
                                     {(states ?? []).map((state: string) => (
                                         <option key={state} value={state}>{state}</option>
@@ -81,7 +83,10 @@ export default function MembershipRegisterPage() {
                             </div>
                             <div>
                                 <label className="mb-2 block text-sm font-medium text-slate-700">LGA</label>
-                                <input value={form.lga} onChange={(e) => setForm({ ...form, lga: e.target.value })} className="w-full rounded-xl border border-slate-200 px-4 py-3" required />
+                                <select value={form.lga} onChange={(e) => setForm({ ...form, lga: e.target.value })} className="w-full rounded-xl border border-slate-200 px-4 py-3" required disabled={!form.state}>
+                                    <option value="">{form.state ? 'Select LGA' : 'Select a state first'}</option>
+                                    {(lgas?.[form.state] ?? []).map((lga: string) => <option key={lga} value={lga}>{lga}</option>)}
+                                </select>
                                 {errors?.lga ? <p className="mt-2 text-sm text-red-600">{errors.lga}</p> : null}
                             </div>
                             <div>
@@ -106,7 +111,7 @@ export default function MembershipRegisterPage() {
 
                         <div className="mt-8 flex items-center justify-between gap-4">
                             <a href="/privacy" className="text-sm font-medium text-[#0d6b4f]">Read privacy notice</a>
-                            <button type="submit" className="rounded-xl bg-[#0d6b4f] px-6 py-3 font-semibold text-white">Submit Registration</button>
+                            <button type="submit" disabled={processing} className="rounded-xl bg-[#0d6b4f] px-6 py-3 font-semibold text-white disabled:cursor-not-allowed disabled:opacity-60">{processing ? 'Submitting…' : 'Submit Registration'}</button>
                         </div>
                     </form>
                 </main>
