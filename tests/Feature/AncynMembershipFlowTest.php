@@ -224,3 +224,36 @@ test('only super admins can access and update public website settings', function
     expect(SiteSetting::value('about_us'))->toBe('Updated organization background.')
         ->and(json_decode(SiteSetting::value('core_values'), true))->toBe(['Unity', 'Integrity']);
 });
+
+test('admins can correct member details and the audit log omits sensitive values', function () {
+    $admin = User::factory()->create(['role' => 'records_admin']);
+    $member = Member::query()->create([
+        'full_name' => 'Ada Okafor',
+        'vin' => 'AB12345683',
+        'phone_number' => '+2348031234567',
+        'state' => 'Kogi',
+        'lga' => 'Lokoja',
+        'ward' => 'Kabawa',
+        'polling_unit' => 'PU 12',
+        'privacy_consent_at' => now(),
+        'status' => 'pending',
+    ]);
+
+    $this->actingAs($admin)->patch("/admin/members/{$member->id}", [
+        'full_name' => 'Ada Okafor Updated',
+        'vin' => 'AB12345684',
+        'phone_number' => '08031234568',
+        'state' => 'Kogi',
+        'lga' => 'Lokoja',
+        'ward' => 'New Ward',
+        'polling_unit' => 'PU 19',
+    ])->assertSessionHasNoErrors();
+
+    expect($member->fresh()->full_name)->toBe('Ada Okafor Updated')
+        ->and($member->fresh()->vin)->toBe('AB12345684')
+        ->and($member->fresh()->phone_number)->toBe('+2348031234568');
+
+    $auditLog = \App\Models\AuditLog::query()->where('action', 'member_record_updated')->firstOrFail();
+    expect($auditLog->details['fields'])->toContain('vin', 'phone_number', 'ward')
+        ->and(json_encode($auditLog->details))->not->toContain('AB12345684', '+2348031234568');
+});

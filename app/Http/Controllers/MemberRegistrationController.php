@@ -40,7 +40,7 @@ class MemberRegistrationController extends Controller
             'privacy_consent.accepted' => 'You must accept the privacy notice before submitting your registration.',
         ]);
 
-        $normalizedPhone = $this->normalizePhone((string) $request->input('phone_number'));
+        $normalizedPhone = Member::normalizePhone((string) $request->input('phone_number'));
         $vin = strtoupper(trim($request->string('vin')));
 
         if (Member::query()->where('vin_lookup_hash', Member::hashVin($vin))->exists()) {
@@ -87,22 +87,4 @@ class MemberRegistrationController extends Controller
         ]);
     }
 
-    private function normalizePhone(string $phone): string
-    {
-        $digits = preg_replace('/\D+/', '', $phone);
-
-        if (empty($digits)) {
-            return $phone;
-        }
-
-        if (str_starts_with($digits, '234')) {
-            return '+'.$digits;
-        }
-
-        if (str_starts_with($digits, '0')) {
-            return '+234'.substr($digits, 1);
-        }
-
-        return '+234'.$digits;
-    }
 }

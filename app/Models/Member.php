@@ -65,13 +65,28 @@ class Member extends Model
 
     public static function hashPhone(string $phone): string
     {
-        $digits = preg_replace('/\D+/', '', trim($phone)) ?: '';
-
-        if (strlen($digits) === 11 && str_starts_with($digits, '0')) {
-            $digits = '234'.substr($digits, 1);
-        }
+        $digits = preg_replace('/\D+/', '', self::normalizePhone($phone)) ?: '';
 
         return hash_hmac('sha256', $digits, config('app.key'));
+    }
+
+    public static function normalizePhone(string $phone): string
+    {
+        $digits = preg_replace('/\D+/', '', trim($phone));
+
+        if ($digits === null || $digits === '') {
+            return trim($phone);
+        }
+
+        if (str_starts_with($digits, '234')) {
+            return '+'.$digits;
+        }
+
+        if (str_starts_with($digits, '0')) {
+            return '+234'.substr($digits, 1);
+        }
+
+        return '+234'.$digits;
     }
 
     public function setVinAttribute(string $value): void

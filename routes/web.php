@@ -26,6 +26,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
     Route::get('/admin/members/{member}', [AdminMemberController::class, 'show'])->name('admin.members.show');
+    Route::patch('/admin/members/{member}', [AdminMemberController::class, 'update'])->name('admin.members.update');
     Route::post('/admin/members/{member}/status', [AdminMemberController::class, 'updateStatus'])->name('admin.members.update-status');
     Route::get('/admin/export', [AdminDashboardController::class, 'export'])->name('admin.export');
     Route::get('/admin/messages', [AdminContactMessageController::class, 'index'])->name('admin.messages.index');
