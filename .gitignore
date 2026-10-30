@@ -1,1 +1,10 @@
 node_modules
+.env
+.env.*
+!.env.example
+.DS_Store
+**/.DS_Store
+/vendor
+/public/build
+/public/hot
+/storage/*.key
