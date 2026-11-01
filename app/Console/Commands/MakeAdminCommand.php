@@ -11,7 +11,7 @@ class MakeAdminCommand extends Command
 {
     protected $signature = 'ancy:make-admin {email} {name} {--role=super_admin}';
 
-    protected $description = 'Create or update an ANCYN admin account.';
+    protected $description = 'Create or update an ANCY admin account.';
 
     public function handle(): int
     {

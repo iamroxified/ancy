@@ -17,7 +17,7 @@ export default function AdminLoginPage() {
             <div className="flex min-h-screen items-center justify-center bg-slate-100 px-4">
                 <div className="w-full max-w-md rounded-3xl border border-slate-200 bg-white p-8 shadow-lg">
                     <div className="mb-8 text-center">
-                        <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-[#0b1d36] text-lg font-bold text-[#d4af37]">ANCYN</div>
+                        <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-[#0b1d36] text-lg font-bold text-[#d4af37]">ANCY</div>
                         <h1 className="text-2xl font-bold text-slate-900">Admin Portal</h1>
                         <p className="mt-2 text-sm text-slate-600">Sign in to manage membership records securely.</p>
                     </div>

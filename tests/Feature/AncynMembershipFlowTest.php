@@ -52,6 +52,29 @@ test('a visitor can register a member with valid data', function () {
         'state' => 'Kogi',
         'polling_unit_id' => $selection['polling_unit_id'],
     ]);
+
+    expect(substr(Member::query()->firstOrFail()->membership_number, 0, 5))->toBe('ANCY-');
+});
+
+test('the public homepage uses the ANCY abbreviation', function () {
+    $this->get('/')
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->where('organization.abbreviation', 'ANCY')
+        );
+});
+
+test('existing site settings are corrected from ANCYN to ANCY', function () {
+    SiteSetting::query()->updateOrCreate(['key' => 'abbreviation'], ['value' => 'ANCYN']);
+    SiteSetting::query()->updateOrCreate(['key' => 'about_us'], ['value' => 'About ANCYN']);
+    SiteSetting::query()->updateOrCreate(['key' => 'privacy_notice'], ['value' => 'Privacy for ANCYN']);
+
+    $migration = require database_path('migrations/2026_11_01_000001_correct_site_abbreviation.php');
+    $migration->up();
+
+    expect(SiteSetting::value('abbreviation'))->toBe('ANCY')
+        ->and(SiteSetting::value('about_us'))->toBe('About ANCY')
+        ->and(SiteSetting::value('privacy_notice'))->toBe('Privacy for ANCY');
 });
 
 test('duplicate VIN registrations are rejected', function () {
@@ -209,7 +232,7 @@ test('database seeding does not create a default administrator', function () {
     expect(User::query()->count())->toBe(0);
 });
 
-test('location catalog seeding imports only ANCYN coverage and is idempotent', function () {
+test('location catalog seeding imports only ANCY coverage and is idempotent', function () {
     expect(LocationState::query()->count())->toBe(7)
         ->and(LocalGovernment::query()->count())->toBe(121)
         ->and(LocationWard::query()->count())->toBe(1398)
@@ -224,11 +247,11 @@ test('location catalog seeding imports only ANCYN coverage and is idempotent', f
 });
 
 test('first administrator setup prompts for a private strong password', function () {
-    $password = 'SecureAdmin!2026-ANCYN';
+    $password = 'SecureAdmin!2026-ANCY';
 
     $this->artisan('ancy:make-admin', [
         'email' => 'owner@example.org',
-        'name' => 'ANCYN Owner',
+        'name' => 'ANCY Owner',
     ])
         ->expectsQuestion('Admin password', $password)
         ->expectsQuestion('Confirm admin password', $password)
@@ -272,7 +295,7 @@ test('only super admins can access and update public website settings', function
     $this->actingAs($superAdmin)->get('/admin/settings')->assertOk();
 
     $this->post('/admin/settings', [
-        'organization_name' => 'ANCYN',
+        'organization_name' => 'ANCY',
         'about_us' => 'Updated organization background.',
         'vision' => 'A shared vision.',
         'mission' => 'A shared mission.',

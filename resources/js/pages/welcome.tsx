@@ -5,12 +5,12 @@ export default function WelcomePage() {
 
     return (
         <>
-            <Head title="ANCYN | Home" />
+            <Head title="ANCY | Home" />
             <div className="min-h-screen bg-slate-50 text-slate-900">
                 <header className="border-b border-slate-200 bg-[#0b1d36] text-white">
                     <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
                         <a href="/" className="flex items-center gap-3 font-semibold tracking-wide">
-                            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#d4af37] text-sm font-bold text-[#0b1d36]">ANCYN</span>
+                            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#d4af37] text-sm font-bold text-[#0b1d36]">ANCY</span>
                             <span>{organization?.name ?? 'Alliance of North Central Youth of Nigeria'}</span>
                         </a>
                         <nav className="hidden items-center gap-6 text-sm md:flex">
@@ -33,7 +33,7 @@ export default function WelcomePage() {
                                 <p className="mt-6 max-w-xl text-lg leading-8 text-slate-600">{organization?.about}</p>
                                 <div className="mt-8 flex flex-wrap gap-4">
                                     <a href="/register" className="rounded-xl bg-[#0d6b4f] px-6 py-3 font-semibold text-white shadow-sm hover:bg-[#0a5645]">Register as a Member</a>
-                                    <a href="/about" className="rounded-xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-800 hover:border-slate-400">Learn About ANCYN</a>
+                                    <a href="/about" className="rounded-xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-800 hover:border-slate-400">Learn About ANCY</a>
                                 </div>
                             </div>
                             <div className="rounded-[2rem] bg-[#0b1d36] p-8 text-white shadow-xl">
@@ -53,7 +53,7 @@ export default function WelcomePage() {
 
                     <section className="mx-auto max-w-6xl px-6 py-16">
                         <div className="mb-10 text-center">
-                            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#0d6b4f]">Why join ANCYN</p>
+                            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#0d6b4f]">Why join ANCY</p>
                             <h2 className="mt-4 text-3xl font-bold text-slate-900">A platform for leadership, innovation, and community impact.</h2>
                         </div>
                         <div className="grid gap-6 md:grid-cols-3">
@@ -136,7 +136,7 @@ export default function WelcomePage() {
                         <div className="mx-auto max-w-4xl text-center">
                             <h2 className="text-3xl font-bold">Ready to become part of the next generation of youth leadership?</h2>
                             <p className="mt-4 text-lg text-green-50">Register today and help shape a more united, innovative, and peace-driven North Central Nigeria.</p>
-                            <a href="/register" className="mt-8 inline-flex rounded-xl bg-white px-6 py-3 font-semibold text-[#0d6b4f]">Join ANCYN</a>
+                            <a href="/register" className="mt-8 inline-flex rounded-xl bg-white px-6 py-3 font-semibold text-[#0d6b4f]">Join ANCY</a>
                         </div>
                     </section>
                 </main>
@@ -144,7 +144,7 @@ export default function WelcomePage() {
                 <footer className="bg-[#0b1d36] px-6 py-10 text-slate-200">
                     <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-3">
                         <div>
-                            <p className="font-semibold text-white">ANCYN</p>
+                            <p className="font-semibold text-white">ANCY</p>
                             <p className="mt-3 text-sm text-slate-300">{organization?.about}</p>
                         </div>
                         <div>

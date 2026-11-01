@@ -18,7 +18,7 @@ export default function CoveragePage() {
                 <header className="border-b border-slate-200 bg-[#0b1d36] text-white">
                     <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
                         <a href="/" className="flex items-center gap-3 font-semibold tracking-wide">
-                            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#d4af37] text-sm font-bold text-[#0b1d36]">ANCYN</span>
+                            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#d4af37] text-sm font-bold text-[#0b1d36]">ANCY</span>
                             <span>Alliance of North Central Youth of Nigeria</span>
                         </a>
                         <nav className="hidden items-center gap-6 text-sm md:flex">
@@ -44,7 +44,7 @@ export default function CoveragePage() {
                                     {index + 1}
                                 </div>
                                 <h2 className="text-xl font-semibold text-slate-900">{state}</h2>
-                                <p className="mt-3 text-sm leading-6 text-slate-600">ANCYN is committed to youth engagement, leadership, and community action across this territory.</p>
+                                <p className="mt-3 text-sm leading-6 text-slate-600">ANCY is committed to youth engagement, leadership, and community action across this territory.</p>
                             </div>
                         ))}
                     </div>

@@ -28,8 +28,8 @@ export default function ContactPage() {
                 <header className="border-b border-slate-200 bg-[#0b1d36] text-white">
                     <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
                         <a href="/" className="flex items-center gap-3 font-semibold tracking-wide">
-                            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#d4af37] text-sm font-bold text-[#0b1d36]">ANCYN</span>
-                            <span>ANCYN</span>
+                            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#d4af37] text-sm font-bold text-[#0b1d36]">ANCY</span>
+                            <span>ANCY</span>
                         </a>
                         <nav className="hidden items-center gap-6 text-sm md:flex">
                             <a href="/about" className="text-slate-200 hover:text-white">About</a>

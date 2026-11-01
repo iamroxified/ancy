@@ -98,8 +98,8 @@ export default function MembershipRegisterPage() {
                 <header className="border-b border-slate-200 bg-[#0b1d36] text-white">
                     <div className="relative mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
                         <a href="/" className="flex items-center gap-3 font-semibold tracking-wide">
-                            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#d4af37] text-sm font-bold text-[#0b1d36]">ANCYN</span>
-                            <span>ANCYN</span>
+                            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#d4af37] text-sm font-bold text-[#0b1d36]">ANCY</span>
+                            <span>ANCY</span>
                         </a>
                         <button type="button" aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'} aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)} className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-white/20 md:hidden">
                             {menuOpen ? <X size={20} /> : <Menu size={20} />}
@@ -116,7 +116,7 @@ export default function MembershipRegisterPage() {
                 <main className="mx-auto max-w-4xl px-6 py-16">
                     <div className="mb-8 text-center">
                         <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#0d6b4f]">Member Registration</p>
-                        <h1 className="mt-4 text-4xl font-bold tracking-tight text-slate-900">Join the ANCYN membership network.</h1>
+                        <h1 className="mt-4 text-4xl font-bold tracking-tight text-slate-900">Join the ANCY membership network.</h1>
                         <p className="mt-4 text-slate-600">We collect this information solely for legitimate membership administration. Registration does not itself constitute voter registration or proof of membership approval.</p>
                     </div>
 
@@ -177,7 +177,7 @@ export default function MembershipRegisterPage() {
                         <div className="mt-8 rounded-2xl border border-slate-200 bg-slate-50 p-4">
                             <label className="flex items-start gap-3 text-sm text-slate-700">
                                 <input type="checkbox" checked={form.privacy_consent} onChange={(e) => setForm({ ...form, privacy_consent: e.target.checked })} className="mt-1 h-4 w-4 rounded border-slate-300" required />
-                                <span>I confirm that I have read the privacy notice and consent to ANCYN processing my information for membership administration, communication, and lawful reporting as described in the privacy policy.</span>
+                                <span>I confirm that I have read the privacy notice and consent to ANCY processing my information for membership administration, communication, and lawful reporting as described in the privacy policy.</span>
                             </label>
                             {errors?.privacy_consent ? <p className="mt-2 text-sm text-red-600">{errors.privacy_consent}</p> : null}
                         </div>

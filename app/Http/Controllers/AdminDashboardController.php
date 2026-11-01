@@ -138,7 +138,7 @@ class AdminDashboardController extends Controller
 
         AuditLog::record('site_settings_updated', ['updated_keys' => array_keys($settings)]);
 
-        return back()->with('success', 'The ANCYN public website settings were updated.');
+        return back()->with('success', 'The ANCY public website settings were updated.');
     }
 
     public function export(Request $request)

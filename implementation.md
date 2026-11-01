@@ -1,6 +1,6 @@
-PROJECT: Alliance of North Central Youth of Nigeria (ANCYN) Website & Membership Management System
+PROJECT: Alliance of North Central Youth of Nigeria (ANCY) Website & Membership Management System
 
-Act as a senior full-stack software engineer, UI/UX designer, database architect, and security specialist. Build a complete, production-ready website and membership management system for the Alliance of North Central Youth of Nigeria (ANCYN).
+Act as a senior full-stack software engineer, UI/UX designer, database architect, and security specialist. Build a complete, production-ready website and membership management system for the Alliance of North Central Youth of Nigeria (ANCY).
 
 Do not stop at designing the interface or creating a static frontend. Implement the frontend, backend, database, authentication, validation, admin dashboard, and all essential functionality. Every button, form, filter, and dashboard action must work.
 
@@ -8,7 +8,7 @@ Do not stop at designing the interface or creating a static frontend. Implement 
 
 The system must:
 
-1. Establish a professional online presence for ANCYN.
+1. Establish a professional online presence for ANCY.
 2. Communicate the organization’s identity, vision, mission, objectives, and core values.
 3. Allow individuals to register as members by submitting their personal and polling-unit information.
 4. Store membership records in a properly structured database.
@@ -20,17 +20,17 @@ The system must:
 
 Full name: Alliance of North Central Youth of Nigeria
 
-Abbreviation: ANCYN
+Abbreviation: ANCY
 
 Organization type: Regional, youth-driven organization.
 
 About Us
 
-The Alliance of North Central Youth of Nigeria (ANCYN) is a regional, youth-driven organization committed to empowering young people across Nigeria’s North Central geopolitical zone.
+The Alliance of North Central Youth of Nigeria (ANCY) is a regional, youth-driven organization committed to empowering young people across Nigeria’s North Central geopolitical zone.
 
 The Alliance provides a unified platform for youth engagement, leadership development, economic advancement, and community transformation.
 
-ANCYN works to amplify youth voices, strengthen interstate collaboration, and promote peace, innovation, and inclusive governance within the region.
+ANCY works to amplify youth voices, strengthen interstate collaboration, and promote peace, innovation, and inclusive governance within the region.
 
 Vision
 
@@ -66,7 +66,7 @@ Digital and Social Advancement: Strengthen digital skills, innovation hubs, and 
 
 States and Territory Covered
 
-ANCYN covers the following seven administrative areas:
+ANCY covers the following seven administrative areas:
 
 1. Benue State
 2. Kogi State
@@ -78,7 +78,7 @@ ANCYN covers the following seven administrative areas:
 
 Display these areas prominently on the website, preferably through an interactive or visually appealing regional representation.
 
-Do not invent the names of ANCYN executives, officeholders, sponsors, contact information, achievements, events, or official partnerships. Make such content configurable through the admin panel or use clearly marked placeholders until verified information is supplied.
+Do not invent the names of ANCY executives, officeholders, sponsors, contact information, achievements, events, or official partnerships. Make such content configurable through the admin panel or use clearly marked placeholders until verified information is supplied.
 
 3. WEBSITE DESIGN AND USER EXPERIENCE
 
@@ -102,21 +102,21 @@ A. Home Page
 
 Include:
 
-* A professional navigation bar with the ANCYN name, logo placeholder, and navigation links.
-* A compelling hero section introducing ANCYN.
+* A professional navigation bar with the ANCY name, logo placeholder, and navigation links.
+* A compelling hero section introducing ANCY.
 * Primary call-to-action: “Register as a Member”.
-* Secondary call-to-action: “Learn About ANCYN”.
+* Secondary call-to-action: “Learn About ANCY”.
 * A short introduction to the organization.
 * Vision and mission sections.
 * Core values.
 * Key objectives.
 * The seven states and territory covered.
-* A section explaining why young people should join ANCYN.
+* A section explaining why young people should join ANCY.
 * Highlights of programs and initiatives, using editable placeholders where actual information is unavailable.
 * A final membership registration call-to-action.
 * A professional footer with contact placeholders, navigation links, and privacy information.
 
-B. About ANCYN
+B. About ANCY
 
 Present the organization’s background, vision, mission, core values, and objectives in a structured and visually appealing format.
 
@@ -167,7 +167,7 @@ Registration behavior
 * Include a required privacy acknowledgment checkbox.
 * Do not request or store passwords, bank details, photographs of voter cards, or other unnecessary sensitive information.
 
-Make it clear that registration with ANCYN does not itself constitute voter registration, electoral verification, or proof of membership approval.
+Make it clear that registration with ANCY does not itself constitute voter registration, electoral verification, or proof of membership approval.
 
 5. DATABASE ARCHITECTURE
 

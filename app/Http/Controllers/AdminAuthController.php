@@ -35,7 +35,7 @@ class AdminAuthController extends Controller
             $request->session()->regenerateToken();
 
             return back()->withErrors([
-                'email' => 'This account is not authorized for the ANCYN admin dashboard.',
+                'email' => 'This account is not authorized for the ANCY admin dashboard.',
             ]);
         }
 

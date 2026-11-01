@@ -59,7 +59,7 @@ class Member extends Model
     public static function generateMembershipNumber(): string
     {
         do {
-            $number = 'ANCYN-'.date('Y').'-'.strtoupper(Str::random(6));
+            $number = 'ANCY-'.date('Y').'-'.strtoupper(Str::random(6));
         } while (self::query()->where('membership_number', $number)->exists());
 
         return $number;

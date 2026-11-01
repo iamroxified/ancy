@@ -2,7 +2,7 @@
 
 return [
     'organization_name' => 'Alliance of North Central Youth of Nigeria',
-    'abbreviation' => 'ANCYN',
+    'abbreviation' => 'ANCY',
     'states' => [
         'Benue',
         'Kogi',
@@ -30,7 +30,7 @@ return [
         'instagram' => null,
         'linkedin' => null,
     ],
-    'default_about' => 'The Alliance of North Central Youth of Nigeria (ANCYN) is a regional, youth-driven organization committed to empowering young people across Nigeria’s North Central geopolitical zone.',
+    'default_about' => 'The Alliance of North Central Youth of Nigeria (ANCY) is a regional, youth-driven organization committed to empowering young people across Nigeria’s North Central geopolitical zone.',
     'default_vision' => 'To build a united, empowered, and progressive North Central region where young people are drivers of sustainable development, peace, and innovation.',
     'default_mission' => 'To mobilize, empower, and connect the youth of the North Central zone through leadership training, socioeconomic programs, advocacy, community development initiatives, and partnerships that enhance youth participation in regional and national development.',
     'default_core_values' => [
@@ -57,7 +57,7 @@ return [
         'Innovation and digital literacy',
         'Peacebuilding and social inclusion projects',
     ],
-    'default_privacy' => "ANCYN collects membership details, including name, Voter Identification Number, phone number, and selected state, local government, ward, and polling unit, only for membership administration and related communications. Contact-form submissions are stored so authorized administrators can respond. Do not submit voter-card images, passwords, financial details, or information about another person.\n\nVIN and phone values are encrypted in the database. Duplicate detection uses keyed hashes. Full values are not shown in the member list, exported reports, or audit logs. Access is restricted to authenticated administrators, and viewing records, exports, edits, and status changes are audited. ANCYN does not verify VINs against INEC systems and does not use this information for political persuasion or partisan targeting.\n\nRecords are retained until an authorized Super Admin configures an automated retention period or a valid correction/deletion request is handled. A retention value of zero disables automatic deletion. You may send a request using the contact form; requests are handled subject to applicable legal and operational requirements, including the Nigeria Data Protection Act where applicable. Registration does not constitute voter registration, electoral verification, or proof of membership approval.",
+    'default_privacy' => "ANCY collects membership details, including name, Voter Identification Number, phone number, and selected state, local government, ward, and polling unit, only for membership administration and related communications. Contact-form submissions are stored so authorized administrators can respond. Do not submit voter-card images, passwords, financial details, or information about another person.\n\nVIN and phone values are encrypted in the database. Duplicate detection uses keyed hashes. Full values are not shown in the member list, exported reports, or audit logs. Access is restricted to authenticated administrators, and viewing records, exports, edits, and status changes are audited. ANCY does not verify VINs against INEC systems and does not use this information for political persuasion or partisan targeting.\n\nRecords are retained until an authorized Super Admin configures an automated retention period or a valid correction/deletion request is handled. A retention value of zero disables automatic deletion. You may send a request using the contact form; requests are handled subject to applicable legal and operational requirements, including the Nigeria Data Protection Act where applicable. Registration does not constitute voter registration, electoral verification, or proof of membership approval.",
     'retention' => [
         'member_days' => 0,
         'contact_message_days' => 0,

@@ -11,7 +11,7 @@ export default function AdminDashboardPage() {
     const lgas = page.lgas ?? {};
     const statuses = page.statuses ?? [];
     const filters = page.filters ?? {};
-    const organizationName = page.organizationName ?? 'ANCYN';
+    const organizationName = page.organizationName ?? 'ANCY';
 
     const [query, setQuery] = useState(filters.search ?? '');
     const [status, setStatus] = useState(filters.status ?? '');

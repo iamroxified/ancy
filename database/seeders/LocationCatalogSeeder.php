@@ -27,7 +27,7 @@ class LocationCatalogSeeder extends Seeder
             ->values();
 
         if ($selectedStates->count() !== 7) {
-            throw new RuntimeException('The location dataset must include all seven ANCYN coverage areas.');
+            throw new RuntimeException('The location dataset must include all seven ANCY coverage areas.');
         }
 
         DB::transaction(function () use ($selectedStates, $stateNames): void {

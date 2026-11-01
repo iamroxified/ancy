@@ -1,4 +1,4 @@
-# ANCYN Membership Management
+# ANCY Membership Management
 
 Laravel 13 application with an Inertia React/TypeScript public site and protected membership administration for the Alliance of North Central Youth of Nigeria.
 
@@ -33,7 +33,7 @@ For a local development server with asset watching and scheduled tasks, use the 
 There is no public administrator registration page and `db:seed` does not create an account. Create the first Super Admin from a trusted terminal after migrations:
 
 ```sh
-php artisan ancy:make-admin admin@example.org "ANCYN Super Admin" --role=super_admin
+php artisan ancy:make-admin admin@example.org "ANCY Super Admin" --role=super_admin
 ```
 
 The command asks for a password twice using hidden terminal input. Use a unique password with at least 12 characters, mixed case, numbers, and symbols. The password is never printed. Do not pass passwords as command-line arguments. Records Administrators can be created with `--role=records_admin`.
@@ -71,10 +71,10 @@ Back up the database using your database provider's encrypted backup mechanism a
 
 ## Production Deployment
 
-1. Configure production environment variables and a least-privilege database account. Set `APP_ENV=production`, `APP_DEBUG=false`, `APP_URL`, database connection values, a secure session driver/cookie configuration, and mail/logging settings as appropriate.
+1. Configure production environment variables and a least-privilege database account. Set `APP_ENV=production`, `APP_DEBUG=false`, `APP_NAME=ANCY`, `MAIL_FROM_NAME=ANCY`, `VITE_APP_NAME=ANCY`, `APP_URL`, database connection values, a secure session driver/cookie configuration, and mail/logging settings as appropriate.
 2. Install PHP dependencies with `composer install --no-dev --optimize-autoloader`.
 3. Install JavaScript dependencies and run `npm run build` in the release build environment.
-4. Run `php artisan migrate --force` as a controlled deployment step, then `php artisan db:seed --force` to import the ANCYN State/LGA/Ward/Polling Unit catalog. The seeder is idempotent and creates no administrator account.
+4. Run `php artisan migrate --force` as a controlled deployment step, then `php artisan db:seed --force` to import the ANCY State/LGA/Ward/Polling Unit catalog. The seeder is idempotent and creates no administrator account.
 5. Create or rotate administrators using `php artisan ancy:make-admin` from a trusted terminal.
 6. Point the web server document root at `public/`; enable HTTPS and ensure `storage/` and `bootstrap/cache/` are writable by the application user but not publicly browsable. If shared hosting cannot change the document root and instead points at the Laravel project root, the root `.htaccess` rewrites requests into `public/` as a workaround; configure the document root to `public/` whenever possible.
 7. Run `php artisan config:cache`, `php artisan route:cache`, and `php artisan view:cache` after environment configuration.

@@ -5,12 +5,12 @@ export default function AboutPage() {
 
     return (
         <>
-            <Head title="About ANCYN" />
+            <Head title="About ANCY" />
             <div className="min-h-screen bg-slate-50 text-slate-900">
                 <header className="border-b border-slate-200 bg-[#0b1d36] text-white">
                     <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
                         <a href="/" className="flex items-center gap-3 font-semibold tracking-wide">
-                            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#d4af37] text-sm font-bold text-[#0b1d36]">ANCYN</span>
+                            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#d4af37] text-sm font-bold text-[#0b1d36]">ANCY</span>
                             <span>{organization?.name ?? 'Alliance of North Central Youth of Nigeria'}</span>
                         </a>
                         <nav className="hidden items-center gap-6 text-sm md:flex">
@@ -70,7 +70,7 @@ export default function AboutPage() {
                 <footer className="bg-[#0b1d36] py-10 text-slate-200">
                     <div className="mx-auto flex max-w-6xl flex-col gap-6 px-6 md:flex-row md:items-center md:justify-between">
                         <div>
-                            <p className="font-semibold text-white">ANCYN</p>
+                            <p className="font-semibold text-white">ANCY</p>
                             <p className="text-sm text-slate-300">Membership management and youth advocacy for the North Central zone.</p>
                         </div>
                         <div className="flex gap-6 text-sm">

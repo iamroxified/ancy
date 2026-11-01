@@ -99,7 +99,7 @@ class PublicPageController extends Controller
             'status' => 'new',
         ]);
 
-        return back()->with('success', 'Your message has been received. The ANCYN team will review it and respond using the contact details provided.');
+        return back()->with('success', 'Your message has been received. The ANCY team will review it and respond using the contact details provided.');
     }
 
     private function decodeJsonList(string $key, mixed $default): array

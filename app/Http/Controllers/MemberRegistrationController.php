@@ -47,7 +47,7 @@ class MemberRegistrationController extends Controller
 
         if (Member::query()->where('vin_lookup_hash', Member::hashVin($vin))->exists()) {
             return back()->withErrors([
-                'vin' => 'A registration with this VIN already exists. Please contact ANCYN support if your record needs updating.',
+                'vin' => 'A registration with this VIN already exists. Please contact ANCY support if your record needs updating.',
             ])->withInput();
         }
 
@@ -76,7 +76,7 @@ class MemberRegistrationController extends Controller
             });
         } catch (UniqueConstraintViolationException) {
             return back()->withErrors([
-                'vin' => 'A registration with this VIN already exists. Please contact ANCYN support if your record needs updating.',
+                'vin' => 'A registration with this VIN already exists. Please contact ANCY support if your record needs updating.',
             ])->withInput();
         }
 
