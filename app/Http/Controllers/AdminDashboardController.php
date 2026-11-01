@@ -167,7 +167,7 @@ class AdminDashboardController extends Controller
                 fputcsv($handle, [
                     $this->csvSafe($member->membership_number),
                     $this->csvSafe($member->full_name),
-                    $this->csvSafe((string) $member->vin),
+                    $this->csvSafe($member->vin),
                     $this->csvSafe($member->state),
                     $this->csvSafe($member->lga),
                     $this->csvSafe($member->ward),
@@ -258,8 +258,12 @@ class AdminDashboardController extends Controller
         return is_array($list) ? array_values(array_filter($list, 'is_string')) : $default;
     }
 
-    private function csvSafe(string $value): string
+    private function csvSafe(?string $value): string
     {
+        if ($value === null) {
+            return '';
+        }
+
         return preg_match('/^[\t\r ]*[=+\-@]/', $value) ? "'".$value : $value;
     }
 }

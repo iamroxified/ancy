@@ -34,15 +34,16 @@ class Member extends Model
     protected static function booted(): void
     {
         static::creating(function (self $member) {
-            $member->membership_number ??= self::generateMembershipNumber();
+            if (! array_key_exists('membership_number', $member->getAttributes())) {
+                $member->membership_number = self::generateMembershipNumber();
+            }
+
             $member->status ??= 'pending';
-            $member->vin_lookup_hash ??= self::hashVin($member->vin);
-            $member->phone_lookup_hash ??= self::hashPhone($member->phone_number);
         });
 
         static::saving(function (self $member) {
-            $member->vin_lookup_hash = self::hashVin($member->vin);
-            $member->phone_lookup_hash = self::hashPhone($member->phone_number);
+            $member->vin_lookup_hash = filled($member->vin) ? self::hashVin($member->vin) : null;
+            $member->phone_lookup_hash = filled($member->phone_number) ? self::hashPhone($member->phone_number) : null;
         });
     }
 
@@ -96,9 +97,9 @@ class Member extends Model
         return '+234'.$digits;
     }
 
-    public function setVinAttribute(string $value): void
+    public function setVinAttribute(?string $value): void
     {
-        $this->attributes['vin'] = Crypt::encryptString($value);
+        $this->attributes['vin'] = filled($value) ? Crypt::encryptString($value) : null;
     }
 
     public function getVinAttribute(?string $value): ?string
@@ -110,9 +111,9 @@ class Member extends Model
         return Crypt::decryptString($value);
     }
 
-    public function setPhoneNumberAttribute(string $value): void
+    public function setPhoneNumberAttribute(?string $value): void
     {
-        $this->attributes['phone_number'] = Crypt::encryptString($value);
+        $this->attributes['phone_number'] = filled($value) ? Crypt::encryptString($value) : null;
     }
 
     public function getPhoneNumberAttribute(?string $value): ?string
@@ -128,6 +129,10 @@ class Member extends Model
     {
         $vin = strtoupper((string) $this->vin);
 
+        if ($vin === '') {
+            return 'Not provided';
+        }
+
         if (strlen($vin) <= 6) {
             return '********';
         }
@@ -138,6 +143,10 @@ class Member extends Model
     public function maskedPhone(): string
     {
         $phone = preg_replace('/\D+/', '', (string) $this->phone_number);
+
+        if ($phone === '') {
+            return 'Not provided';
+        }
 
         if (strlen($phone) <= 4) {
             return '********';

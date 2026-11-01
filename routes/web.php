@@ -1,11 +1,12 @@
 <?php
 
 use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\AdminContactMessageController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminMemberController;
-use App\Http\Controllers\AdminContactMessageController;
-use App\Http\Controllers\MemberRegistrationController;
+use App\Http\Controllers\AdminMemberImportController;
 use App\Http\Controllers\LocationCatalogController;
+use App\Http\Controllers\MemberRegistrationController;
 use App\Http\Controllers\PublicPageController;
 use Illuminate\Support\Facades\Route;
 
@@ -30,6 +31,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
     Route::get('/admin/members/{member}', [AdminMemberController::class, 'show'])->name('admin.members.show');
+    Route::post('/admin/members/import', [AdminMemberImportController::class, 'store'])->name('admin.members.import');
     Route::patch('/admin/members/{member}', [AdminMemberController::class, 'update'])->name('admin.members.update');
     Route::post('/admin/members/{member}/status', [AdminMemberController::class, 'updateStatus'])->name('admin.members.update-status');
     Route::get('/admin/export', [AdminDashboardController::class, 'export'])->name('admin.export');

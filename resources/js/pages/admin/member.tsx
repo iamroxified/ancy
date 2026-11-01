@@ -59,19 +59,19 @@ export default function AdminMemberPage() {
 
     return (
         <>
-            <Head title={`Member ${member?.membership_number}`} />
+            <Head title={member?.membership_number ? `Member ${member.membership_number}` : 'Imported Member'} />
             <div className="min-h-screen bg-slate-100 p-6 text-slate-900">
                 <div className="mx-auto max-w-4xl rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
                     <div className="mb-8 flex items-center justify-between">
                         <div>
                             <p className="text-sm uppercase tracking-[0.2em] text-[#0d6b4f]">Member Record</p>
-                            <h1 className="mt-2 text-3xl font-bold">{member?.full_name}</h1>
+                            <h1 className="mt-2 text-3xl font-bold">{member?.full_name ?? 'Name not provided'}</h1>
                         </div>
                         <a href="/admin" className="rounded-xl bg-slate-100 px-4 py-2 text-sm font-medium text-slate-700">Back to dashboard</a>
                     </div>
 
                     <div className="grid gap-6 md:grid-cols-2">
-                        <div className="rounded-2xl bg-slate-50 p-4"><p className="text-xs uppercase tracking-[0.15em] text-slate-500">Membership Number</p><p className="mt-2 font-semibold">{member?.membership_number}</p></div>
+                        <div className="rounded-2xl bg-slate-50 p-4"><p className="text-xs uppercase tracking-[0.15em] text-slate-500">Membership Number</p><p className="mt-2 font-semibold">{member?.membership_number ?? 'Not assigned'}</p></div>
                         <div className="rounded-2xl bg-slate-50 p-4"><p className="text-xs uppercase tracking-[0.15em] text-slate-500">Status</p><p className="mt-2 font-semibold">{member?.status}</p></div>
                         <div className="rounded-2xl bg-slate-50 p-4"><p className="text-xs uppercase tracking-[0.15em] text-slate-500">VIN</p><p className="mt-2 font-semibold">{member?.vin}</p></div>
                         <div className="rounded-2xl bg-slate-50 p-4"><p className="text-xs uppercase tracking-[0.15em] text-slate-500">Phone Number</p><p className="mt-2 font-semibold">{member?.phone_number}</p></div>

@@ -44,12 +44,14 @@ Alternatively, configure `ADMIN_SEED_NAME`, `ADMIN_SEED_EMAIL`, `ADMIN_SEED_PASS
 
 - `/`, `/about`, `/coverage`, `/register`, `/contact`, and `/privacy` are public.
 - `/admin/login` is the administrator login.
-- `/admin` lists and manages members, live reports, and filtered CSV export.
+- `/admin` lists and manages members, live reports, filtered CSV export, and member CSV import.
 - `/admin/messages` is the protected contact inbox.
 - `/admin/settings` is restricted to Super Admins and edits public content, contact/social details, privacy text, and retention periods.
 - `/dashboard` is an authenticated alias for the admin dashboard.
 
 Records Administrators can manage membership and contact messages. Only Super Admins can change public site settings. Admin actions such as viewing records, edits, status changes, exports, message views, and settings updates are written to `audit_logs`; logs do not include full VIN or phone values.
+
+From `/admin`, administrators can import a CSV containing `VIN`, `Name`, and `Phonee` columns. Values may be blank or partial; imported rows have no membership number and start with pending status. CSVs are limited to 5,000 rows and 10 MB, and rows with VINs already present or repeated in the file are skipped.
 
 ## Registration and Location Data
 

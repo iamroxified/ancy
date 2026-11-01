@@ -4,6 +4,7 @@ import LocationCatalogController from './LocationCatalogController'
 import AdminAuthController from './AdminAuthController'
 import AdminDashboardController from './AdminDashboardController'
 import AdminMemberController from './AdminMemberController'
+import AdminMemberImportController from './AdminMemberImportController'
 import AdminContactMessageController from './AdminContactMessageController'
 import Settings from './Settings'
 
@@ -14,6 +15,7 @@ const Controllers = {
     AdminAuthController: Object.assign(AdminAuthController, AdminAuthController),
     AdminDashboardController: Object.assign(AdminDashboardController, AdminDashboardController),
     AdminMemberController: Object.assign(AdminMemberController, AdminMemberController),
+    AdminMemberImportController: Object.assign(AdminMemberImportController, AdminMemberImportController),
     AdminContactMessageController: Object.assign(AdminContactMessageController, AdminContactMessageController),
     Settings: Object.assign(Settings, Settings),
 }

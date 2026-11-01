@@ -12,6 +12,7 @@ use App\Models\User;
 use Database\Seeders\AdminUserSeeder;
 use Database\Seeders\LocationCatalogSeeder;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Testing\AssertableInertia as Assert;
@@ -405,6 +406,89 @@ test('CSV export includes VIN and audit metadata excludes sensitive values', fun
     $auditLog = AuditLog::query()->where('action', 'member_exported')->firstOrFail();
     expect($auditLog->details['includes_sensitive_fields'])->toBeTrue()
         ->and(json_encode($auditLog->details))->not->toContain('AB12345687');
+});
+
+test('only authenticated administrators can import member CSV files', function () {
+    $file = UploadedFile::fake()->createWithContent('members.csv', "VIN,Name,Phonee\n,,\n");
+
+    $this->post('/admin/members/import', ['file' => $file])
+        ->assertRedirect('/admin/login');
+
+    $this->assertDatabaseCount('members', 0);
+});
+
+test('admins can import incomplete member rows without membership numbers', function () {
+    $admin = User::factory()->create(['role' => 'records_admin']);
+    $csv = "VIN,Name,Phonee\nAB12345678,Ada Okafor,08031234567\nAB,Partial Name,\n,,\n";
+
+    $response = $this->actingAs($admin)->post('/admin/members/import', [
+        'file' => UploadedFile::fake()->createWithContent('members.csv', $csv),
+    ]);
+
+    $response->assertRedirect()
+        ->assertSessionHas('success', 'CSV import complete: 3 imported, 0 skipped because of duplicate VINs.');
+
+    $members = Member::query()->orderBy('id')->get();
+    expect($members)->toHaveCount(3)
+        ->and($members->pluck('membership_number')->unique()->all())->toBe([null])
+        ->and($members[0]->full_name)->toBe('Ada Okafor')
+        ->and($members[0]->vin)->toBe('AB12345678')
+        ->and($members[0]->phone_number)->toBe('08031234567')
+        ->and($members[0]->getRawOriginal('vin'))->not->toBe('AB12345678')
+        ->and($members[0]->state)->toBeNull()
+        ->and($members[1]->full_name)->toBe('Partial Name')
+        ->and($members[1]->vin)->toBe('AB')
+        ->and($members[1]->phone_number)->toBeNull()
+        ->and($members[2]->full_name)->toBeNull()
+        ->and($members[2]->vin)->toBeNull()
+        ->and($members[2]->phone_number)->toBeNull();
+
+    $this->actingAs($admin)->get('/admin')
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page->where(
+            'flash.success',
+            'CSV import complete: 3 imported, 0 skipped because of duplicate VINs.'
+        ));
+
+    $auditLog = AuditLog::query()->where('action', 'members_imported')->firstOrFail();
+    expect($auditLog->details)->toBe([
+        'imported_count' => 3,
+        'duplicate_vin_count' => 0,
+    ])->and(json_encode($auditLog->details))->not->toContain('AB12345678', 'Ada Okafor', '08031234567');
+});
+
+test('member CSV imports skip VINs already present and duplicates within the file', function () {
+    $admin = User::factory()->create(['role' => 'records_admin']);
+    Member::query()->create([
+        'full_name' => 'Existing Member',
+        'vin' => 'AB12345689',
+        'phone_number' => '08031234567',
+        'state' => 'Kogi',
+        'lga' => 'Lokoja',
+        'ward' => 'Kabawa',
+        'polling_unit' => 'PU 12',
+    ]);
+    $csv = "VIN,Name,Phonee\nAB12345689,Duplicate Existing,08000000000\nCD12345678,First Import,08000000001\nCD12345678,Duplicate Import,08000000002\n";
+
+    $this->actingAs($admin)->post('/admin/members/import', [
+        'file' => UploadedFile::fake()->createWithContent('members.csv', $csv),
+    ])->assertSessionHas('success', 'CSV import complete: 1 imported, 2 skipped because of duplicate VINs.');
+
+    expect(Member::query()->count())->toBe(2)
+        ->and(Member::query()->where('full_name', 'First Import')->exists())->toBeTrue();
+});
+
+test('member CSV import rejects files without required column headers', function () {
+    $admin = User::factory()->create(['role' => 'records_admin']);
+
+    $this->actingAs($admin)->from('/admin')->post('/admin/members/import', [
+        'file' => UploadedFile::fake()->createWithContent('members.csv', "VIN,Name\nAB12345678,Ada Okafor\n"),
+    ])->assertRedirect('/admin')
+        ->assertSessionHasErrors([
+            'file' => 'The CSV must include VIN, Name, and Phonee columns.',
+        ]);
+
+    $this->assertDatabaseCount('members', 0);
 });
 
 test('admin login is rate limited and public responses include security headers', function () {

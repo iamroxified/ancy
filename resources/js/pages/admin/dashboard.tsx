@@ -1,6 +1,7 @@
 import { Head, usePage } from '@inertiajs/react';
 import { router } from '@inertiajs/core';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useRef, useState } from 'react';
+import { store as importMembers } from '@/actions/App/Http/Controllers/AdminMemberImportController';
 
 export default function AdminDashboardPage() {
     const page = usePage().props as any;
@@ -12,7 +13,12 @@ export default function AdminDashboardPage() {
     const statuses = page.statuses ?? [];
     const filters = page.filters ?? {};
     const organizationName = page.organizationName ?? 'ANCY';
+    const errors = page.errors ?? {};
+    const flash = page.flash ?? {};
 
+    const [importFile, setImportFile] = useState<File | null>(null);
+    const [importing, setImporting] = useState(false);
+    const importFileInput = useRef<HTMLInputElement>(null);
     const [query, setQuery] = useState(filters.search ?? '');
     const [status, setStatus] = useState(filters.status ?? '');
     const [state, setState] = useState(filters.state ?? '');
@@ -43,6 +49,22 @@ export default function AdminDashboardPage() {
 
     const exportQuery = new URLSearchParams({ search: query, status, state, lga, ward, polling_unit: pollingUnit, from, to }).toString();
 
+    const importMembersFromCsv = (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        if (!importFile || importing) return;
+
+        router.post(importMembers.url(), { file: importFile }, {
+            forceFormData: true,
+            preserveScroll: true,
+            onStart: () => setImporting(true),
+            onFinish: () => setImporting(false),
+            onSuccess: () => {
+                setImportFile(null);
+                if (importFileInput.current) importFileInput.current.value = '';
+            },
+        });
+    };
+
     const handleStatusUpdate = (id: number, statusValue: string) => {
         if (!window.confirm(`Change this member's status to ${statusValue}?`)) return false;
         router.post(`/admin/members/${id}/status`, { status: statusValue }, { preserveScroll: true });
@@ -72,6 +94,29 @@ export default function AdminDashboardPage() {
                         <div className="rounded-2xl bg-white p-5 shadow-sm"><p className="text-sm text-slate-500">Approved</p><p className="mt-3 text-3xl font-bold">{stats.approved ?? 0}</p></div>
                         <div className="rounded-2xl bg-white p-5 shadow-sm"><p className="text-sm text-slate-500">Rejected / Inactive</p><p className="mt-3 text-3xl font-bold">{stats.rejected_or_inactive ?? 0}</p></div>
                         <div className="rounded-2xl bg-white p-5 shadow-sm"><p className="text-sm text-slate-500">Today</p><p className="mt-3 text-3xl font-bold">{stats.today ?? 0}</p></div>
+                    </section>
+
+                    <section className="mb-8 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+                        <h2 className="text-lg font-semibold">Import members from CSV</h2>
+                        <p className="mt-1 text-sm text-slate-600">Upload a CSV with VIN, Name, and Phonee columns. Values may be blank or incomplete; imported records will not receive membership numbers. Maximum: 5,000 rows and 10 MB.</p>
+                        <form onSubmit={importMembersFromCsv} className="mt-4 flex flex-col gap-3 md:flex-row md:items-start">
+                            <div className="flex-1">
+                                <label htmlFor="member-csv" className="mb-2 block text-sm font-medium text-slate-700">CSV file</label>
+                                <input
+                                    ref={importFileInput}
+                                    id="member-csv"
+                                    type="file"
+                                    accept=".csv,text/csv"
+                                    onChange={(event) => setImportFile(event.target.files?.[0] ?? null)}
+                                    className="block w-full rounded-xl border border-slate-200 px-4 py-3 text-sm"
+                                />
+                                {errors.file ? <p role="alert" className="mt-2 text-sm text-red-700">{errors.file}</p> : null}
+                                {flash.success ? <p role="status" className="mt-2 text-sm text-green-700">{flash.success}</p> : null}
+                            </div>
+                            <button type="submit" disabled={!importFile || importing} className="rounded-xl bg-[#0d6b4f] px-5 py-3 font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50">
+                                {importing ? 'Importing…' : 'Upload CSV'}
+                            </button>
+                        </form>
                     </section>
 
                     <section className="mb-8 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
@@ -150,8 +195,8 @@ export default function AdminDashboardPage() {
                                 <tbody>
                                     {(members ?? []).map((member: any) => (
                                         <tr key={member.id} className="border-t border-slate-200">
-                                            <td className="px-4 py-3 text-sm font-medium text-slate-800">{member.membership_number}</td>
-                                            <td className="px-4 py-3 text-sm text-slate-700">{member.full_name}</td>
+                                            <td className="px-4 py-3 text-sm font-medium text-slate-800">{member.membership_number ?? 'Not assigned'}</td>
+                                            <td className="px-4 py-3 text-sm text-slate-700">{member.full_name ?? 'Not provided'}</td>
                                             <td className="px-4 py-3 text-sm text-slate-700">{member.vin}</td>
                                             <td className="px-4 py-3 text-sm text-slate-700">{member.phone_number}</td>
                                             <td className="px-4 py-3 text-sm text-slate-700">{member.state}</td>

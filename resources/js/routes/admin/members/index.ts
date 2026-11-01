@@ -105,6 +105,62 @@ showForm.head = (args: { member: number | { id: number } } | [member: number | {
 show.form = showForm
 
 /**
+* @see \App\Http\Controllers\AdminMemberImportController::importMethod
+* @see app/Http/Controllers/AdminMemberImportController.php:17
+* @route '/admin/members/import'
+*/
+export const importMethod = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
+    url: importMethod.url(options),
+    method: 'post',
+})
+
+importMethod.definition = {
+    methods: ["post"],
+    url: '/admin/members/import',
+} satisfies RouteDefinition<["post"]>
+
+/**
+* @see \App\Http\Controllers\AdminMemberImportController::importMethod
+* @see app/Http/Controllers/AdminMemberImportController.php:17
+* @route '/admin/members/import'
+*/
+importMethod.url = (options?: RouteQueryOptions) => {
+    return importMethod.definition.url + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\AdminMemberImportController::importMethod
+* @see app/Http/Controllers/AdminMemberImportController.php:17
+* @route '/admin/members/import'
+*/
+importMethod.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
+    url: importMethod.url(options),
+    method: 'post',
+})
+
+/**
+* @see \App\Http\Controllers\AdminMemberImportController::importMethod
+* @see app/Http/Controllers/AdminMemberImportController.php:17
+* @route '/admin/members/import'
+*/
+const importMethodForm = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+    action: importMethod.url(options),
+    method: 'post',
+})
+
+/**
+* @see \App\Http\Controllers\AdminMemberImportController::importMethod
+* @see app/Http/Controllers/AdminMemberImportController.php:17
+* @route '/admin/members/import'
+*/
+importMethodForm.post = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+    action: importMethod.url(options),
+    method: 'post',
+})
+
+importMethod.form = importMethodForm
+
+/**
 * @see \App\Http\Controllers\AdminMemberController::update
 * @see app/Http/Controllers/AdminMemberController.php:54
 * @route '/admin/members/{member}'
@@ -276,6 +332,7 @@ updateStatus.form = updateStatusForm
 
 const members = {
     show: Object.assign(show, show),
+    import: Object.assign(importMethod, importMethod),
     update: Object.assign(update, update),
     updateStatus: Object.assign(updateStatus, updateStatus),
 }
