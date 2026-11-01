@@ -22,11 +22,11 @@ export default function CoveragePage() {
                             <span>Alliance of North Central Youth of Nigeria</span>
                         </a>
                         <nav className="hidden items-center gap-6 text-sm md:flex">
+                            <a href="/" className="text-slate-200 hover:text-white">Home</a>
                             <a href="/about" className="text-slate-200 hover:text-white">About</a>
-                            <a href="/coverage" className="text-slate-200 hover:text-white">Coverage</a>
-                            <a href="/register" className="text-slate-200 hover:text-white">Membership</a>
+                            <a href="/register" className="text-slate-200 hover:text-white">Register</a>
                             <a href="/contact" className="text-slate-200 hover:text-white">Contact</a>
-                            <a href="/privacy" className="text-slate-200 hover:text-white">Privacy</a>
+                            <a href="/admin/login" className="rounded-full bg-white px-4 py-2 font-medium text-[#0b1d36]">Admin Login</a>
                         </nav>
                     </div>
                 </header>

@@ -38,6 +38,8 @@ php artisan ancy:make-admin admin@example.org "ANCY Super Admin" --role=super_ad
 
 The command asks for a password twice using hidden terminal input. Use a unique password with at least 12 characters, mixed case, numbers, and symbols. The password is never printed. Do not pass passwords as command-line arguments. Records Administrators can be created with `--role=records_admin`.
 
+Alternatively, configure `ADMIN_SEED_NAME`, `ADMIN_SEED_EMAIL`, `ADMIN_SEED_PASSWORD`, and optionally `ADMIN_SEED_ROLE` on the server, then run `php artisan db:seed --class='Database\Seeders\AdminUserSeeder'`. This explicit seeder validates the password, creates an active verified account, and does not overwrite an existing account. Keep the password in a secret manager; do not commit it or add it to `.env.example`.
+
 ## Main Routes
 
 - `/`, `/about`, `/coverage`, `/register`, `/contact`, and `/privacy` are public.

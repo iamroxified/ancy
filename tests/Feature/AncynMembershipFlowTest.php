@@ -9,6 +9,7 @@ use App\Models\Member;
 use App\Models\PollingUnit;
 use App\Models\SiteSetting;
 use App\Models\User;
+use Database\Seeders\AdminUserSeeder;
 use Database\Seeders\LocationCatalogSeeder;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Artisan;
@@ -228,6 +229,38 @@ test('admin dashboard filters by location and reports real totals', function () 
 
 test('database seeding does not create a default administrator', function () {
     Artisan::call('db:seed');
+
+    expect(User::query()->count())->toBe(0);
+});
+
+test('admin seeder creates an active verified administrator from configured credentials', function () {
+    config([
+        'admin_seed.name' => 'ANCY Owner',
+        'admin_seed.email' => 'owner@example.org',
+        'admin_seed.password' => 'SecureAdmin!2026-ANCY',
+        'admin_seed.role' => 'super_admin',
+    ]);
+
+    $this->seed(AdminUserSeeder::class);
+
+    $admin = User::query()->where('email', 'owner@example.org')->firstOrFail();
+    expect($admin->name)->toBe('ANCY Owner')
+        ->and($admin->role)->toBe('super_admin')
+        ->and($admin->status)->toBe('active')
+        ->and($admin->email_verified_at)->not->toBeNull()
+        ->and(Hash::check('SecureAdmin!2026-ANCY', $admin->password))->toBeTrue();
+});
+
+test('admin seeder fails when secure credentials are not configured', function () {
+    config([
+        'admin_seed.name' => null,
+        'admin_seed.email' => null,
+        'admin_seed.password' => null,
+        'admin_seed.role' => 'super_admin',
+    ]);
+
+    expect(fn () => $this->seed(AdminUserSeeder::class))
+        ->toThrow(RuntimeException::class, 'Admin seed configuration is invalid');
 
     expect(User::query()->count())->toBe(0);
 });

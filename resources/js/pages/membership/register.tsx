@@ -105,10 +105,11 @@ export default function MembershipRegisterPage() {
                             {menuOpen ? <X size={20} /> : <Menu size={20} />}
                         </button>
                         <nav className={`${menuOpen ? 'flex' : 'hidden'} absolute left-0 right-0 top-full z-10 flex-col gap-1 border-t border-white/10 bg-[#0b1d36] px-6 py-3 text-sm md:static md:flex md:flex-row md:items-center md:gap-6 md:border-0 md:bg-transparent md:p-0`}>
+                            <a href="/" className="text-slate-200 hover:text-white">Home</a>
                             <a href="/about" className="text-slate-200 hover:text-white">About</a>
-                            <a href="/coverage" className="text-slate-200 hover:text-white">Coverage</a>
+                            <a href="/register" className="text-slate-200 hover:text-white">Register</a>
                             <a href="/contact" className="text-slate-200 hover:text-white">Contact</a>
-                            <a href="/privacy" className="text-slate-200 hover:text-white">Privacy</a>
+                            <a href="/admin/login" className="rounded-full bg-white px-4 py-2 font-medium text-[#0b1d36]">Admin Login</a>
                         </nav>
                     </div>
                 </header>
