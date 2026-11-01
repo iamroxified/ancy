@@ -12,7 +12,7 @@ use RuntimeException;
 
 class AdminMemberImportController extends Controller
 {
-    private const MAX_ROWS = 5000;
+    private const MAX_ROWS = 50000;
 
     private const MAX_FILE_SIZE_KB = 20480;
 
