@@ -478,6 +478,17 @@ test('member CSV imports skip VINs already present and duplicates within the fil
         ->and(Member::query()->where('full_name', 'First Import')->exists())->toBeTrue();
 });
 
+test('admins can upload CSV files larger than 10 MB', function () {
+    $admin = User::factory()->create(['role' => 'records_admin']);
+    $csv = "VIN,Name,Phonee,Notes\nAB12345690,Large Import,08031234567,".str_repeat('x', 11_500_000);
+
+    $this->actingAs($admin)->post('/admin/members/import', [
+        'file' => UploadedFile::fake()->createWithContent('members.csv', $csv),
+    ])->assertSessionHas('success', 'CSV import complete: 1 imported, 0 skipped because of duplicate VINs.');
+
+    expect(Member::query()->where('full_name', 'Large Import')->exists())->toBeTrue();
+});
+
 test('member CSV import rejects files without required column headers', function () {
     $admin = User::factory()->create(['role' => 'records_admin']);
 

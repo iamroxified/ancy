@@ -51,7 +51,7 @@ Alternatively, configure `ADMIN_SEED_NAME`, `ADMIN_SEED_EMAIL`, `ADMIN_SEED_PASS
 
 Records Administrators can manage membership and contact messages. Only Super Admins can change public site settings. Admin actions such as viewing records, edits, status changes, exports, message views, and settings updates are written to `audit_logs`; logs do not include full VIN or phone values.
 
-From `/admin`, administrators can import a CSV containing `VIN`, `Name`, and `Phonee` columns. Values may be blank or partial; imported rows have no membership number and start with pending status. CSVs are limited to 5,000 rows and 10 MB, and rows with VINs already present or repeated in the file are skipped.
+From `/admin`, administrators can import a CSV containing `VIN`, `Name`, and `Phonee` columns. Values may be blank or partial; imported rows have no membership number and start with pending status. CSVs are limited to 5,000 rows and 20 MB, and rows with VINs already present or repeated in the file are skipped. The web server and PHP upload limits must also allow requests larger than the maximum CSV size.
 
 ## Registration and Location Data
 

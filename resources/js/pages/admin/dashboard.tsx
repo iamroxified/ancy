@@ -98,7 +98,7 @@ export default function AdminDashboardPage() {
 
                     <section className="mb-8 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
                         <h2 className="text-lg font-semibold">Import members from CSV</h2>
-                        <p className="mt-1 text-sm text-slate-600">Upload a CSV with VIN, Name, and Phonee columns. Values may be blank or incomplete; imported records will not receive membership numbers. Maximum: 5,000 rows and 10 MB.</p>
+                        <p className="mt-1 text-sm text-slate-600">Upload a CSV with VIN, Name, and Phonee columns. Values may be blank or incomplete; imported records will not receive membership numbers. Maximum: 5,000 rows and 20 MB.</p>
                         <form onSubmit={importMembersFromCsv} className="mt-4 flex flex-col gap-3 md:flex-row md:items-start">
                             <div className="flex-1">
                                 <label htmlFor="member-csv" className="mb-2 block text-sm font-medium text-slate-700">CSV file</label>

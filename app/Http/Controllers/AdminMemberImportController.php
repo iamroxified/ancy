@@ -14,10 +14,12 @@ class AdminMemberImportController extends Controller
 {
     private const MAX_ROWS = 5000;
 
+    private const MAX_FILE_SIZE_KB = 20480;
+
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
-            'file' => ['required', 'file', 'mimes:csv,txt', 'max:10240'],
+            'file' => ['required', 'file', 'mimes:csv,txt', 'max:'.self::MAX_FILE_SIZE_KB],
         ]);
 
         $stream = fopen($validated['file']->getRealPath(), 'rb');
